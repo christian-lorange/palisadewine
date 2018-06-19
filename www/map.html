@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+   <title>HHAp - Fort Collins</title>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
+    <script src="js/admob2.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/seededData.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/accordion.js"></script>
+    
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  
+    <script>
+
+  
+    </script>
+      
+      
+  </head>
+  <body>
+
+   <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">HHAp - Fort Collins</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ><a href="index.html">Table View</a></li>
+            <li class="active"><a href="map.html">Map View</a></li>
+            
+          </ul>
+          
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="accordion" style="padding-top: 50px;">
+      <div class="accordion-section">
+        <a class="accordion-section-title" href="#accordion-1">About the HHAp - Fort Collins</a>
+        <div id="accordion-1" class="accordion-section-content">
+  <p>We live in an amazing town. As of last time we checked there was somewhere over 600 restaurants and bars in Fort Collins. That doesn't even count the breweries, cideries, and distilleries. All those options can also be a bit overwhelming sometimes. The paradox of choice. </p>
+
+  <p>We built this simple app to help us keep track of it all. We found ourselves going to the same couple places over and over. Not because they were superior to everything else (although we do have our favorites - <b>Tacos for Life! </b>) but because they were the ones at the front of our memories. </p>
+
+  <p>HHAP - Fort Collins (the Happy Hour App for Fort Collins) is a list of ~100 restaurants, bars, and breweries in Fort Collins, CO. You can sort by cost, location in town, and ammentities such as outdoor patios and dog friendly establishments. You can also check on happy hour times and offerings around town.</p>
+
+  <h3>Disclaimer </h3>
+  <p>We provide this information free of charge. We do our best to ensure accurate and up-to-date information but we make ZERO guarantees. Know of information that needs to be updated? Think we should add another location? Let us know by sending a message to info@orangehousellc.com.  </p>
+
+    </div><!--end .accordion-section-content-->
+      </div><!--end .accordion-section-->
+
+
+<!--
+<div class="accordion-section">
+        <a class="accordion-section-title" href="#accordion-2">Icon Legend</a>
+        <div id="accordion-2" class="accordion-section-content">
+      <div class="row" id="key">
+        <div class="col-md-6">
+          <img src="img/drinkicon.png" class="key-icon"><p class="key-text"> Happy Hour Drinks</p>
+        </div>
+        <div class="col-md-2">
+          <img src="img/foodicon.png" class="key-icon"><p class="key-text"> Happy Hour Food</p>
+        </div>
+
+        <div class="col-md-2">
+          <img src="img/outdoor.png" class="key-icon"><p class="key-text"> Outdoor Seating</p>
+        </div>
+        <div class="col-md-2">
+          <img src="img/pets.png" class="key-icon"><p class="key-text"> Pet Friendly</p>
+        </div>
+         <div class="col-md-2">
+          <img src="img/easy.png" class="key-icon"><p class="key-text"> Easy Parking </p>
+        </div>
+         <div class="col-md-2">
+          <img src="img/medium.png" class="key-icon"><p class="key-text"> Medium Parking </p>
+        </div>
+        <div class="col-md-2">
+          <img src="img/hard.png" class="key-icon"><p class="key-text"> Hard Parking </p>
+        </div>
+      </div>
+
+        </div><end .accordion-section-content-->
+      <!-- </div<end .accordion-section-->
+    </div>
+    
+   
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-md-4'>
+  
+           <div class='well'>
+            <h4>
+              Address <small>(<a id='find_me' href='#'>find me</a>)</small>
+            </h4>
+            <p>
+              <input class='form-control' id='search_address' placeholder='Enter an address or an intersection' type='text' />
+            </p>
+            <p>
+              <label>
+                within
+                <select id='search_radius'>
+                  <option value='400'>2 blocks</option>
+                  <option value='805'>1/2 mile</option>
+                  <option value='1610'>1 mile</option>
+                  <option value='3220'>2 miles</option>
+                </select>
+              </label>
+            </p>
+
+            <br />
+            
+     <!--      <div class='alert alert-info' id='result_box' ><strong id='result_count'></strong></div>
+     <div class='well'>
+        <div id='results_list'></div>
+      </div>
+        </div>-->
+        <div class='col-md-8'>
+          <noscript>
+            
+          </noscript>
+          <div id='map_canvas'></div>
+          
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.address.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCIrLjWpPH1PrZUke0B06bh0R795MEbN8Q"></script>
+    <script type="text/javascript" src="js/maps_lib.js"></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        $(window).resize(function () {
+          var h = $(window).height(),
+            offsetTop = 105; // Calculate the top offset
+        
+          $('#map_canvas').css('height', (h - offsetTop));
+        }).resize();
+        
+        $(function() {
+          var myMap = new MapsLib({
+            fusionTableId:      "1oU73GZHXUTKVWapCDue0lEDBxLZgzfj83TxuS1jf",
+            googleApiKey:       "AIzaSyBj55vvtTEIswTyUFMmSfOeZbY5P1BVhtc",
+            locationColumn:     "Location",
+            map_center:         [40.587348, -105.075660],
+            defaultZoom:    16,
+            
+          });
+
+          var autocomplete = new google.maps.places.Autocomplete(document.getElementById('search_address'));
+      
+        
+          
+          $('#search_radius').change(function(){
+            myMap.doSearch();
+          });
+          
+          $('#search').click(function(){
+            myMap.doSearch();
+          });
+          
+          $('#find_me').click(function(){
+            myMap.findMe(); 
+            return false;
+          });
+          
+          $('#reset').click(function(){
+            myMap.reset(); 
+            return false;
+          });
+          
+          $(":text").keydown(function(e){
+              var key =  e.keyCode ? e.keyCode : e.which;
+              if(key === 13) {
+                  $('#search').click();
+                  return false;
+              }
+          });
+        });
+      //]]>
+    </script>
+
+     <button id="showAd" style="text-align: center;margin: auto; width: 100vw; height:40px; background: black; color: white; font-weight: bolder;">Show Some Support by Looking at an Ad!</button>
+  <script type="text/javascript" src="cordova.js"></script>
+
+  <script type="text/javascript" src="js/admob2.js"></script>
+  </body>
+</html>
