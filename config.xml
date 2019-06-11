@@ -49,7 +49,8 @@
     <!-- Plugins -->
 
     <!-- Core plugins -->
-    
+    <plugin name="cordova-plugin-battery-status" />
+   
     <plugin name="cordova-plugin-console" />
     
     <plugin name="cordova-plugin-device" />
@@ -65,8 +66,8 @@
     <plugin name="cordova-plugin-network-information" />
     <plugin name="cordova-plugin-splashscreen" />
 
-     <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
-     <gap:plugin name="cordova-plugin-ezar-snapshot" source="npm"/>
+    <plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
+    <plugin name="cordova-plugin-ezar-snapshot" />
 
 
    
