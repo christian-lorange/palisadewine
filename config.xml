@@ -66,6 +66,8 @@
     <plugin name="cordova-plugin-network-information" />
     <plugin name="cordova-plugin-splashscreen" />
 
+     <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
+     <gap:plugin name="cordova-plugin-ezar-snapshot" source="npm"/>
 
 
    
