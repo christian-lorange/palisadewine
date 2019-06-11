@@ -60,20 +60,22 @@
 
 
     for(i=0; i<pin.length; i++) {
+
+            code[code.length]=1;
             
 
-            if (today >=hh[i][l][1] && today <= hh[i][l][2]-1) {                                                    //current
-            code[code.length]=1;   
+    //        if (today >=hh[i][l][1] && today <= hh[i][l][2]-1) {                                                    //current
+    //        code[code.length]=1;   
               
-            } else if (today >=hh[i][l][1]-1 && today <= hh[i][l][1]) {                                             //starting soon 
-            code[code.length]=2;     
+    //        } else if (today >=hh[i][l][1]-1 && today <= hh[i][l][1]) {                                             //starting soon 
+    //        code[code.length]=2;     
               
-            } else if (today >=hh[i][l][2]-1 && today <= hh[i][l][2]) {                                             //ending soon
-             code[code.length]=3;   
+    //        } else if (today >=hh[i][l][2]-1 && today <= hh[i][l][2]) {                                             //ending soon
+    //         code[code.length]=3;   
                
-            } else {
-                code[code.length]=4;   
-            }                                                                                               //not today
+    //        } else {
+    //            code[code.length]=4;   
+    //        }                                                                                               //not today
     }
 
 console.log(code);
