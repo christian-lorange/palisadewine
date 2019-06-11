@@ -48,6 +48,15 @@
 
     <!-- Plugins -->
 
+
+    <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
+    <plugin name="cordova-plugin-device-orientation"/>
+    <plugin name="cordova-plugin-device-motion" />
+    <plugin name="cordova-plugin-geolocation"  />
+    <gap:plugin name="cordova-plugin-ezar-snapshot" source="npm"/>
+
+
+
     <!-- Core plugins -->
     <plugin name="cordova-plugin-battery-status" />
    
@@ -79,13 +88,6 @@
     <engine name="ios" spec="~4.5.3" />
     <plugin name="cordova-plugin-whitelist" />
     <plugin name="cordova-plugin-admob-free"  spec="0.19.0"/>
-
-
-         <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
-    <plugin name="cordova-plugin-device-orientation"/>
-    <plugin name="cordova-plugin-device-motion" />
-    <plugin name="cordova-plugin-geolocation"  />
-    <gap:plugin name="cordova-plugin-ezar-snapshot" source="npm"/>
 
 
 
