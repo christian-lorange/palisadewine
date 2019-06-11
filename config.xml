@@ -50,7 +50,7 @@
 
 
     <plugin name="cordova-plugin-ezar-videooverlay" source="npm"/>
-    <plugin name="cordova-plugin-ezar-snapshot" source="npm"/>
+
 
 
     <!-- Core plugins -->
