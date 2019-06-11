@@ -49,8 +49,6 @@
     <!-- Plugins -->
 
 
-    <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
-
 
 
     <!-- Core plugins -->
