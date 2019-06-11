@@ -49,12 +49,7 @@
     <!-- Plugins -->
 
 
-
-    <plugin name="cordova-plugin-device-orientation"/>
-    <plugin name="cordova-plugin-device-motion" />
-    <plugin name="cordova-plugin-geolocation"  />
-
-
+    <plugin name="cordova-plugin-ezar-videooverlay" source="npm"/>
 
 
     <!-- Core plugins -->
