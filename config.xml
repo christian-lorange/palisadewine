@@ -49,8 +49,7 @@
     <!-- Plugins -->
 
     <!-- Core plugins -->
-    <plugin name="cordova-plugin-battery-status" />
-   
+    
     <plugin name="cordova-plugin-console" />
     
     <plugin name="cordova-plugin-device" />
