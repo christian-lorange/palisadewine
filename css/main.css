@@ -3882,3 +3882,5 @@ input, select, textarea {
 }
 
 
+.navbar-default .navbar-collapse {background-color: white}
+.navbar-toggle {width: 12.5vw;}
