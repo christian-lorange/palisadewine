@@ -60,22 +60,20 @@
 
 
     for(i=0; i<pin.length; i++) {
-
-            code[code.length]=1;
             
 
-    //        if (today >=hh[i][l][1] && today <= hh[i][l][2]-1) {                                                    //current
-    //        code[code.length]=1;   
+            if (today >=hh[i][l][1] && today <= hh[i][l][2]-1) {                                                    //current
+            code[code.length]=1;   
               
-    //        } else if (today >=hh[i][l][1]-1 && today <= hh[i][l][1]) {                                             //starting soon 
-    //        code[code.length]=2;     
+            } else if (today >=hh[i][l][1]-1 && today <= hh[i][l][1]) {                                             //starting soon 
+            code[code.length]=2;     
               
-    //        } else if (today >=hh[i][l][2]-1 && today <= hh[i][l][2]) {                                             //ending soon
-    //         code[code.length]=3;   
+            } else if (today >=hh[i][l][2]-1 && today <= hh[i][l][2]) {                                             //ending soon
+             code[code.length]=3;   
                
-    //        } else {
-    //            code[code.length]=4;   
-    //        }                                                                                               //not today
+            } else {
+                code[code.length]=4;   
+            }                                                                                               //not today
     }
 
 console.log(code);
@@ -178,15 +176,15 @@ function loadData(){
 }
 // add marker to map and in array        
 function addMarker(i){
-	var marker = new google.maps.Marker({position: new google.maps.LatLng(pin[i].lat, pin[i].lng), map: map, title: pin[i].name});
-	bounds.extend(new google.maps.LatLng(pin[i].lat, pin[i].lng));
-	markersArray.push(marker);
+    var marker = new google.maps.Marker({position: new google.maps.LatLng(pin[i].lat, pin[i].lng), map: map, title: pin[i].name});
+    bounds.extend(new google.maps.LatLng(pin[i].lat, pin[i].lng));
+    markersArray.push(marker);
 } 
 // clear all markers from map and array        
 function clearMarkers() {
-	while (markersArray.length) {
-		markersArray.pop().setMap(null);
-	}
+    while (markersArray.length) {
+        markersArray.pop().setMap(null);
+    }
 }        
 // calulate distance and bearing value for each of the points wrt gps lat/lng        
 function relativePosition(i){
@@ -332,7 +330,7 @@ function stopAccelerometer() {
 // onSuccess: Get current accelerometer values
 function onAccelerometerSuccess(acceleration) {
     // for debug purpose to print out accelerometer values
-	var element = document.getElementById('accelerometer');
+    var element = document.getElementById('accelerometer');
     element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
                         'Acceleration Y: ' + acceleration.y + '<br />' +
                         'Acceleration Z: ' + acceleration.z ;
