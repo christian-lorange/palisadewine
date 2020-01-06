@@ -1,29 +1,89 @@
+ <!Doctype html>
 <html>
 <head>
+  <title>Palisade Valley Wine</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, user-scalable=no">
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css" />
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-
-<!-- <script src="js/admob.js"></script>-->
- <script src="js/main.js"></script>
-
-
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ">//AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ</script> 
-<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
- <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ">//AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ</script> 
 
 
-
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 
 
+<link rel="stylesheet" href="css/style.css" />
+<!-- <link rel="stylesheet" href="css/main.css"> -->
 
-<script type="text/javascript">
+<!-- Determine distance to wineries -->
+<script type = "text/javascript" >
+    function calcCrow(lat1, lon1, lat2, lon2) {
+        var R = 3950; // miles
+        var dLat = toRad(lat2 - lat1);
+        var dLon = toRad(lon2 - lon1);
+        var lat1 = toRad(lat1);
+        var lat2 = toRad(lat2);
+
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d;
+    }
+
+// Converts numeric degrees to radians
+function toRad(Value) {
+    return Value * Math.PI / 180;
+}
+
+
+function navfunction() {
+
+	if (window.location.hash === "#routeload") {
+		route();
+        }
+
+     if (window.location.hash === "#tourload") {
+		tour();
+        }
+
+    var locs = [
+        ["38.82634","-107.60381"],["39.07861","-108.41027"],["38.88589","-107.58253"],["39.07221","-108.40469"],["39.07505","-108.39373"],["39.115529","-108.325794"],["38.60797","-108.03621"],["39.105627","-108.355456"],["39.04227","-108.45359"],["39.107404","-108.389369"],["39.117231","-108.362088"],["39.091901","-108.430842"],["39.09035","-108.3667"],["39.045728","-108.447431"],["39.104194","-108.389553"],["39.105832","-108.365821"],["39.046375","-108.436188"],["38.60738","-108.00163"],["39.106845","-108.365892"],["39.03675","-108.4749"],["39.10468","-108.38576"],["39.0846623","-108.3857671"],["39.06603","-108.56488"],["39.116621","-108.36067"],["38.899693","-107.577303"],["39.097046","-108.349879"],["39.116621","-108.36067"],["39.04591","-108.44237"],["39.090821","-108.662153"],["39.111978","-108.355815"],["39.03685","-108.45828"],["39.118056","-108.364689"]
+    ]
+    var hourstext = ['By Appointment','May-Sept<br>Fri: 12-5<br>Sat: 11-5<br>Sun: 12-4<br>Mon-Thur: By Appointment','Memorial Day - Halloween<br>10-6','10am-5:45pm','Winter: M-F 9 - 4<br>Sat 11 - 5<br>Summer: M-F 9 - 5<br>Sat/Sun 10 - 5','10am - 5pm','By Appointment','Late April-October<br>Sun - Thurs <br>11 - 6<br>Fri/Sat 11 -7<br>October to late April<br> Sun - Fri Noon- 5<br>Sat 11 -5']
+
+    navigator.geolocation.getCurrentPosition(showPosition);
+
+    function showPosition(position) {
+        var lat2 = position.coords.latitude;
+        var lon2 = position.coords.longitude;
+
+        var i;
+        for (i = 0; i < locs.length; i++) {
+            // console.log(calcCrow(locs[i][0],locs[i][1],lat2,lon2).toFixed(1));
+
+            var temp = calcCrow(locs[i][0], locs[i][1], lat2, lon2).toFixed(1)
+
+            document.getElementsByClassName("distancetext")[i].innerHTML = temp + ' miles';
+
+            // document.getElementsByClassName("hours")[i].innerHTML = hourstext[i];
+        }
+    }
+}
+
+
+</script>
+<!-- End of winery distance calculations -->
+
+<!-- Start of routing script -->
+<script type = "text/javascript" >
 var map;
 var directionsDisplay;
 var directionsService;
@@ -36,11 +96,11 @@ var durations = [];
 
 // Initialize google maps
 function initializeMap() {
-var geocoder = new google.maps.Geocoder();
+    var geocoder = new google.maps.Geocoder();
 
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
+    document.getElementById('submit').addEventListener('click', function() {
+        geocodeAddress(geocoder, map);
+    });
 
     // Map options
     var opts = {
@@ -48,323 +108,316 @@ var geocoder = new google.maps.Geocoder();
         zoom: 11,
         streetViewControl: false,
         mapTypeControl: false,
-        styles: [
-        {
-            "featureType": "administrative",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#ffcc00"
+        styles: [{
+                "featureType": "administrative",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#ffcc00"
+                    },
+                    {
+                        "saturation": 5
+                    },
+                    {
+                        "lightness": -57
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "saturation": 5
+                "featureType": "administrative.province",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#ff0000"
+                    },
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "lightness": -57
+                "featureType": "administrative.locality",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "administrative.province",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#ff0000"
+                "featureType": "administrative.locality",
+                "elementType": "labels",
+                "stylers": [{
+                        "hue": "#ffffff"
+                    },
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "lightness": 100
+                "featureType": "administrative.neighborhood",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#ff0000"
+                    },
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "administrative.locality",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "administrative.locality",
-            "elementType": "labels",
-            "stylers": [
-            {
-                "hue": "#ffffff"
+                "featureType": "administrative.land_parcel",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#ff0000"
+                    },
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "lightness": 100
+                "featureType": "landscape",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#b7caaa"
+                    },
+                    {
+                        "saturation": -14
+                    },
+                    {
+                        "lightness": -18
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "administrative.neighborhood",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#ff0000"
+                "featureType": "landscape.man_made",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#66ff00"
+                    },
+                    {
+                        "saturation": -6
+                    },
+                    {
+                        "lightness": -9
+                    },
+                    {
+                        "visibility": "off"
+                    }
+                ]
             },
             {
-                "lightness": 100
+                "featureType": "poi",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#c17118"
+                    },
+                    {
+                        "saturation": 61
+                    },
+                    {
+                        "lightness": -45
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "administrative.land_parcel",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#ff0000"
+                "featureType": "poi.business",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "lightness": 100
+                "featureType": "poi.government",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "landscape",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#b7caaa"
+                "featureType": "poi.medical",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "saturation": -14
+                "featureType": "poi.medical",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#cba923"
+                    },
+                    {
+                        "saturation": 50
+                    },
+                    {
+                        "lightness": -46
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "lightness": -18
+                "featureType": "poi.park",
+                "elementType": "all",
+                "stylers": [{
+                        "hue": "#6cff00"
+                    },
+                    {
+                        "saturation": -46
+                    },
+                    {
+                        "lightness": -28
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "landscape.man_made",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#66ff00"
+                "featureType": "poi.place_of_worship",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "saturation": -6
+                "featureType": "poi.school",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "lightness": -9
+                "featureType": "poi.sports_complex",
+                "elementType": "all",
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#c17118"
+                "featureType": "road",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#8d9b83"
+                    },
+                    {
+                        "saturation": -89
+                    },
+                    {
+                        "lightness": -12
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "saturation": 61
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#d4dad0"
+                    },
+                    {
+                        "saturation": -88
+                    },
+                    {
+                        "lightness": 54
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
             },
             {
-                "lightness": -45
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#77ff00"
+                    },
+                    {
+                        "saturation": -89
+                    },
+                    {
+                        "lightness": -3
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
             },
             {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "poi.business",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi.government",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi.medical",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi.medical",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#cba923"
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#bdc5b6"
+                    },
+                    {
+                        "saturation": -89
+                    },
+                    {
+                        "lightness": -26
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
             },
             {
-                "saturation": 50
+                "featureType": "transit",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#ff2f00"
+                    },
+                    {
+                        "saturation": 74
+                    },
+                    {
+                        "lightness": -51
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
             },
             {
-                "lightness": -46
-            },
-            {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "poi.park",
-            "elementType": "all",
-            "stylers": [
-            {
-                "hue": "#6cff00"
-            },
-            {
-                "saturation": -46
-            },
-            {
-                "lightness": -28
-            },
-            {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "poi.place_of_worship",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi.school",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "poi.sports_complex",
-            "elementType": "all",
-            "stylers": [
-            {
-                "visibility": "off"
-            }]
-        },
-        {
-            "featureType": "road",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#8d9b83"
-            },
-            {
-                "saturation": -89
-            },
-            {
-                "lightness": -12
-            },
-            {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#d4dad0"
-            },
-            {
-                "saturation": -88
-            },
-            {
-                "lightness": 54
-            },
-            {
-                "visibility": "simplified"
-            }]
-        },
-        {
-            "featureType": "road.arterial",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#77ff00"
-            },
-            {
-                "saturation": -89
-            },
-            {
-                "lightness": -3
-            },
-            {
-                "visibility": "simplified"
-            }]
-        },
-        {
-            "featureType": "road.local",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#bdc5b6"
-            },
-            {
-                "saturation": -89
-            },
-            {
-                "lightness": -26
-            },
-            {
-                "visibility": "on"
-            }]
-        },
-        {
-            "featureType": "transit",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#ff2f00"
-            },
-            {
-                "saturation": 74
-            },
-            {
-                "lightness": -51
-            },
-            {
-                "visibility": "simplified"
-            }]
-        },
-        {
-            "featureType": "water",
-            "elementType": "geometry",
-            "stylers": [
-            {
-                "hue": "#165c64"
-            },
-            {
-                "saturation": 34
-            },
-            {
-                "lightness": -69
-            },
-            {
-                "visibility": "on"
-            }]
-        }]
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [{
+                        "hue": "#165c64"
+                    },
+                    {
+                        "saturation": 34
+                    },
+                    {
+                        "lightness": -69
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            }
+        ]
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), opts);
 
@@ -474,7 +527,7 @@ $(document).ready(function() {
     // Start GA
     $('#find-route').click(function() {
 
-    	ad_show();
+        ad_show();
 
         if (nodes.length < 2) {
             if (prevNodes.length >= 2) {
@@ -530,14 +583,14 @@ $(document).ready(function() {
                 route = result.population.getFittest().chromosome;
 
                 console.log(route)
-           
 
 
-                for (i = 0; i < 40; i++) {			//rotate order until start/end is at the beginning
+
+                for (i = 0; i < 40; i++) { //rotate order until start/end is at the beginning
 
                     if (route[0] > 0) {
                         route.push(route.shift());
-                        
+
                     }
                     console.log(route)
 
@@ -551,13 +604,10 @@ $(document).ready(function() {
 
                 var names_new = [];
 
-                for (i=0; i < route.length; i++){
-                names_new.push(names[route[i]]);	//Set venue name list to match order of trip
+                for (i = 0; i < route.length; i++) {
+                    names_new.push(names[route[i]]); //Set venue name list to match order of trip
 
-               }
-
-
-
+                }
 
 
 
@@ -590,7 +640,7 @@ $(document).ready(function() {
                         directionsDisplay.setDirections(response);
                         changetext(names_new);
 
-                        
+
 
                         // Adding custom pin
                         //marker = new google.maps.Marker({
@@ -606,8 +656,8 @@ $(document).ready(function() {
 
                     }
                     clearMapMarkers();
-                document.getElementById("venue_options").style.display = "none";		//remove venue list after running
-                document.getElementById("options_table").style.display = "none";		//remove table after running
+                    document.getElementById("venue_options").style.display = "none"; //remove venue list after running
+                    document.getElementById("options_table").style.display = "none"; //remove table after running
                 });
             });
         });
@@ -889,44 +939,46 @@ var ga = {
 
 //Creating start and stop location. After created you can choose venues
 function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
+    var address = document.getElementById('address').value;
+    geocoder.geocode({
+        'address': address
+    }, function(results, status) {
+        if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-             });
+                map: resultsMap,
+                position: results[0].geometry.location
+            });
 
-             markers.push(marker);
-
-
-    			// Store node's lat and lng
-    		nodes.push(marker.position);
-
-    		document.getElementById("venue_options").style.display = "block";
-    		document.getElementById("button_grp").style.display = "block";
-
-    		document.getElementById("add_address").style.display = "none";
-
-    		var x_destinations = nodes.length.toString()
-
-    		document.getElementById("destinations-count").innerHTML = x_destinations;
-    		nameslist("Start/End")
+            markers.push(marker);
 
 
-          } else {
+            // Store node's lat and lng
+            nodes.push(marker.position);
+
+            document.getElementById("venue_options").style.display = "block";
+            document.getElementById("button_grp").style.display = "block";
+
+            document.getElementById("add_address").style.display = "none";
+
+            var x_destinations = nodes.length.toString()
+
+            document.getElementById("destinations-count").innerHTML = x_destinations;
+            nameslist("Start/End")
+
+
+        } else {
             alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
+        }
+    });
+}
 
 
 
 // Remove venue after being selected. Preventing same selector being chosen twice
-function removeselecter (){
-var x=document.getElementById("venue_options");
-x.remove(x.selectedIndex);
+function removeselecter() {
+    var x = document.getElementById("venue_options");
+    x.remove(x.selectedIndex);
 }
 
 
@@ -935,197 +987,238 @@ var acc = document.getElementsByClassName("accordion");
 var i;
 
 for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
+    acc[i].addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
 
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
 }
 
 
 </script>
+<!-- End of routing script -->
 
 </head>
-<body>
-     <div class="navbar">
-             <!-- Fixed navbar -->
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+<body onload="navfunction()">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+             <!-- <img src="logo.PNG" alt="Palisade Valley Wine Finder"> -->
+             <h3 style="margin-top: 10px; font-weight: bolder; color: white; padding-left: 10px">Palisade Wine Finder</h3>
+          </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <li><a href="#" onclick="showwineeries()" data-target=".navbar-collapse">Wineries</a></li>
+            <li><a href="#" onclick="route()" data-target=".navbar-collapse">Plan Route</a></li>
+            <!-- <li><a href="map.html"  data-target=".navbar-collapse">Map View</a></li> -->
+            <li><a href="iso.html"  data-target=".navbar-collapse">Find Nearby Locations</a></li>
+            <li><a href="#" onclick="tour()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+<div class="main">
+
+
+<!-- Start of winery list -->
+<section class="major_section" id="winelist" style="display: block">
+
+<input placeholder="Search by Name or City" id="box" type="text" />
+
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading1" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false" aria-controls="collapse1"><img class="venue_image" src="img/Alf.png"><h4 class="winery_title">Alfred Eames Cellars</h4><p class="city">Paonia</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1"><div class="panel-body"><p><b>Address:</b> 11931 4050 Rd Paonia<br><b>Phone:</b> (970) 527-3269<br>Alfred Eames Cellars wine is traditionally crafted from grapes grown in the high elevations of the Colorado Rocky Mountains. Our red wines are fermented in open vats, barrel aged in French oak, unfined and unfiltered. Our white wines are barrel fermented and lightly filtered.<br><br>Visitors to the winery please call (970-527-3269) for appointment. Wine tastings are only offered at the winery during announced winery events and occasional local festivals. Our wine can be tasted every day from May to October at Delicious Orchards on Highway 133 one mile west of Paonia.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading2" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false" aria-controls="collapse2"><img class="venue_image" src="img/Ava.png"><h4 class="winery_title">Avant Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2"><div class="panel-body"><p><b>Address:</b> 3480 E Rd Palisade<br><b>Phone:</b> (970) 216-9908<br>At Avant Vineyards, the principal wine making philosophy is to keep the process as basic and natural as possible, letting the character of the fruit come through. We make our wine in hand crafted small batches from our own grapes. They are grown along the mighty Colorado River at the base of the Grand Mesa on Colorado’s western slope, where the cool night-breezes coming off the mountains meets the hot sunny days of this high mountain environment. All this makes our select fine wines ridiculously delicious. Because we’re not trying to please everyone. We’re only trying to please you.<br><br>Our Tasting Room is open May through September. Fridays 12p to 5p (Beginning Memorial Day Weekend) Saturdays 11a to 5p Sundays 12p to 4 p Tastings by appointment Monday-Thursday</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading3" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false" aria-controls="collapse3"><img class="venue_image" src="img/Bla.png"><h4 class="winery_title">Black Bridge Winery</h4><p class="city">Paonia</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3"><div class="panel-body"><p><b>Address:</b> 15836 Black Bridge Rd Paonia<br><b>Phone:</b> (970) 527-6838<br>Located in the rugged, pristine North Fork Valley of the Gunnison River near Paonia, Colorado – a place so beautiful our produce can’t help but taste great! The 80 acre farm was established in 1976 as a grower supplier for wholesale fruit packing houses in western Colorado. Our agricultural roots fostered grape growing for Colorado’s emerging wine scene and earned a reputation for great Pinot Noir. We launched Black Bridge Winery with wines from our vineyards in the West Elks.<br><br>Memorial Day weekend to Halloween Open everyday from 10 am – 6 pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading4" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4"><img class="venue_image" src="img/Car.png"><h4 class="winery_title">Carlson Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4"><div class="panel-body"><p><b>Address:</b> 461 35 Rd Palisade<br><b>Phone:</b> (970) 464-5554<br>Located in Palisade, Colorado our family-owned winery is focused on producing premium wines in the heart of Colorados wine country. Pioneers of the Colorado wine industry, we use sun-ripened local grapes and fruit grown on the high elevation slopes of the Rocky Mountains to create easy drinking, regionally distinctive wines.<br><br>Open daily from 10:00am to 5:45pm Closed: Thanksgiving, Christmas, New Year''s Day</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading5" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5"><img class="venue_image" src="img/Col1.png"><h4 class="winery_title">Colorado Cellars Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5"><div class="panel-body"><p><b>Address:</b> 3553 E Rd Palisade<br><b>Phone:</b> (970) 464-7921<br>Colorado Cellars is Colorados original and most-awarded winery - since 1978 the first to produce and sell Colorado grape wines, fruit wines, ports, champagne and meads! Also, dozens of wine-based foods<br><br>Winter: M-F 9:00 am - 4:00 pm Sat 11:00 am - 5:00 pm Summer: M-F 9:00 am - 5:00 pm Sat/Sun 10:00 am - 5:00 pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading6" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6"><img class="venue_image" src="img/Col.png"><h4 class="winery_title">Colterris Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading6"><div class="panel-body"><p><b>Address:</b> 3907 North River Road Palisade<br><b>Phone:</b> (970) 464-1150<br>Visit our wine tasting room, take a tour and experience world class, award winning, Estate grown Bordeaux style wines.<br><br>Open Daily year-round 10am-5pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading7" data-toggle="collapse" data-parent="#accordion" href="#collapse7" aria-expanded="false" aria-controls="collapse7"><img class="venue_image" src="img/Cot.png"><h4 class="winery_title">Cottonwood Cellars</h4><p class="city">Olathe</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading7"><div class="panel-body"><p><b>Address:</b> 5482 CO-348 Olathe<br><b>Phone:</b> (970) 323-6224<br>Established in 1994, we are a family owned and operated winery on a 52-acre farm in Olathe Colorado. Twenty two acres are planted in Vinifera grapes. We are on top of California Mesa with panoramic views of the San Juan Mountains, the Uncompaghre Plateau and the Grand Mesa.<br><br>Please call ahead for winery tours. There is NO fee for tasting and tours at the winery.  </p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading8" data-toggle="collapse" data-parent="#accordion" href="#collapse8" aria-expanded="false" aria-controls="collapse8"><img class="venue_image" src="img/DeB.png"><h4 class="winery_title">DeBeque Canyon Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading8"><div class="panel-body"><p><b>Address:</b> 351 W. 8th street Palisade<br><b>Phone:</b> (970) 464-0550<br>"Traditional wines-ripe fruit, barrel aged by pioneer wine maker Bennett Price. Join us for good wine and friendly service. Tasting room is open daily.<br><br>The Tasting Room is open year around, seven days a week: Late April-October 10 am-6 pm., and October to Late April 12 noon-5 pm.  (closed New Year’s Day, Easter Sunday, Thanksgiving Day and Christmas)</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading9" data-toggle="collapse" data-parent="#accordion" href="#collapse9" aria-expanded="false" aria-controls="collapse9"><img class="venue_image" src="img/Des.png"><h4 class="winery_title">Desert Sun Vineyards</h4><p class="city">Grand Junction</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse9" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading9"><div class="panel-body"><p><b>Address:</b> 3230 B 1/2 Road Grand Junction<br><b>Phone:</b> (970) 434-9851<br>Come and taste our wines!!!  Desert Sun Vineyards is a small family owned Vineyard and Winery.  We take advantage of the wonderful terroir that the Grand Valley has and make high quality wines.<br><br>11 to 5 Friday, Saturday and Sunday (May to November)</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading10" data-toggle="collapse" data-parent="#accordion" href="#collapse10" aria-expanded="false" aria-controls="collapse10"><img class="venue_image" src="img/Gar.png"><h4 class="winery_title">Garfield Estates Vineyard and Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse10" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading10"><div class="panel-body"><p><b>Address:</b> 3572 G Rd Palisade<br><b>Phone:</b> (970) 464-0941<br>Family owned and sustainably farmed; producing award winning, European style wines with a passion for regional expression.<br><br>12-5pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading11" data-toggle="collapse" data-parent="#accordion" href="#collapse11" aria-expanded="false" aria-controls="collapse11"><img class="venue_image" src="img/Gra.png"><h4 class="winery_title">Grande River Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse11" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading11"><div class="panel-body"><p><b>Address:</b> 787 Elberta Ave Palisade<br><b>Phone:</b> (970) 464-5867<br>Grande River Vineyards has won over 300 awards. Taste the results at our tasting room just off I-70 at Exit 42. Come enjoy our concert series!<br><br>Open seven days a week 9 a.m. - 5 p.m.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading12" data-toggle="collapse" data-parent="#accordion" href="#collapse12" aria-expanded="false" aria-controls="collapse12"><img class="venue_image" src="img/Gra2.png"><h4 class="winery_title">Graystone Winery</h4><p class="city">Clifton</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse12" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading12"><div class="panel-body"><p><b>Address:</b> 3352 F Rd Clifton<br><b>Phone:</b> (970) 434-8610<br>A small boutique-style winery, Graystone specializes in ruby red and white Ports.  Try these quality dessert Ports, winners of double gold in international competitions.   <br><br>Open Daily: Monday-Saturday 10-5; Sunday 11-5</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading13" data-toggle="collapse" data-parent="#accordion" href="#collapse13" aria-expanded="false" aria-controls="collapse13"><img class="venue_image" src="img/Gub.png"><h4 class="winery_title">Gubbini Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse13" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading13"><div class="panel-body"><p><b>Address:</b> 3697 F Road Palisade<br><b>Phone:</b> (970) 270-7185<br>PROPRIETOR, LINDA LEE GUBBINI, ESTABLISHED HER TASTING ROOM AND WINERY IN 2011.  CULTIVATING GRAPES ON THE PROPERTY FROM HORSE MOUNTAIN VINEYARDS WHICH HAS BEEN IN PRODUCTION SINCE 1991.   WITH HER ITALIAN HERITAGE, THIS DRIVES A LABOR OF LOVE FOR GRAPE GROWING AND WINE MAKING<br><br>May  through October: Saturday  12-5</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading14" data-toggle="collapse" data-parent="#accordion" href="#collapse14" aria-expanded="false" aria-controls="collapse14"><img class="venue_image" src="img/Her.png"><h4 class="winery_title">Hermosa Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse14" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading14"><div class="panel-body"><p><b>Address:</b> 3269 3/4 C Rd Palisade<br><b>Phone:</b> (970) 640-0940<br>Hermosa Vineyards, is a cozy little winery in Palisade, dedicated to hand crafting the finest wine from grapes grown in the high mountain desert of western Colorado. All the wines are produced in very limited quantities. The goal is not to be one of the biggest  wineries in Palisade but rather one of the best! With some great wineries in Palisade, Im in good company!<br><br></p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading15" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="false" aria-controls="collapse15"><img class="venue_image" src="img/Mai.png"><h4 class="winery_title">Maison La Belle Vie Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading15"><div class="panel-body"><p><b>Address:</b> 3575 G Road Palisade<br><b>Phone:</b> (970) 464-2244<br>French style winery with vineyard and tasting room with boutique and outside dining.<br><br>Sunday-Thursday: 12-5pm Friday-Saturday: 12-6pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading16" data-toggle="collapse" data-parent="#accordion" href="#collapse16" aria-expanded="false" aria-controls="collapse16"><img class="venue_image" src="img/Mea.png"><h4 class="winery_title">Meadery of the Rockies</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse16" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading16"><div class="panel-body"><p><b>Address:</b> 3701 G Rd. Palisade<br><b>Phone:</b> (970) 464-1300<br>Meadery of the Rockies opens up a world of honey wines, honey themed gifts and honey flavored local foods of all kinds. The Meadery is a hive of activity where all our wines are created, aged and bottled.<br><br>10 am-5 pm daily 10am-6pm Fridays and Saturdays from Memorial Day to Labor Day.  Closed on major holidays.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading17" data-toggle="collapse" data-parent="#accordion" href="#collapse17" aria-expanded="false" aria-controls="collapse17"><img class="venue_image" src="img/Mes.png"><h4 class="winery_title">Mesa Park Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse17" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading17"><div class="panel-body"><p><b>Address:</b> 3321 C Road Palisade<br><b>Phone:</b> (970) 628-9113<br>Family-owned winery, nestled above Palisade. We feature award winning estate grown, produced and bottled Merlot, Cabernet Franc, and Cabernet Sauvignon wines. Come Taste Our Reds!<br><br>Our newly renovated tasting room is open daily from 11am-5pm. We invite you to sit back, relax and drink local.    For parties of 8 or more please call in advance</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading18" data-toggle="collapse" data-parent="#accordion" href="#collapse18" aria-expanded="false" aria-controls="collapse18"><img class="venue_image" src="img/Mou.png"><h4 class="winery_title">Mountain View Winery</h4><p class="city"> Olathe</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse18" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading18"><div class="panel-body"><p><b>Address:</b> 5859 5825 Rd  Olathe<br><b>Phone:</b> (970) 323-6816<br>Our vineyard and orchard have been nurtured with the Colorado sun, giving our wine a distinct, invigorating goodness. As a small, locally owned, family winery, we take great care in the the process: from growing, tending, pruning, and taking care of our grapes, to selecting and engaging in the meticulous process of making our wines. All our grapes have been carefully hand picked from our organic vineyard. We enjoy the process and hope that you also enjoy our Colorado wines!<br><br>Tasting room open Monday through Saturday, 10 am to 6 pm.  By appointment on Sunday</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading19" data-toggle="collapse" data-parent="#accordion" href="#collapse19" aria-expanded="false" aria-controls="collapse19"><img class="venue_image" src="img/Plu.png"><h4 class="winery_title">Plum Creek Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse19" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading19"><div class="panel-body"><p><b>Address:</b> 3708 G Rd Palisade<br><b>Phone:</b> (970) 464-7586<br>Plum Creek Winery is Colorados most award-winning winery. Premium wines from Colorado-grown grapes only. Chardonnay, Merlot, Riesling, Cabernet Sauvignon, dessert wines and more.<br><br>The tasting room is open year round 10:00 a.m. to 5:00 p.m. daily. The winery is closed on Thanksgiving, Christmas and New Year’s Day. Tours of the winery facility are available, but reservations are required for large groups.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading20" data-toggle="collapse" data-parent="#accordion" href="#collapse20" aria-expanded="false" aria-controls="collapse20"><img class="venue_image" src="img/Pta.png"><h4 class="winery_title">Ptarmigan Vineyards</h4><p class="city">Grand Junction</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse20" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading20"><div class="panel-body"><p><b>Address:</b> 221 31 3/10 Road Grand Junction<br><b>Phone:</b>  (970) 434-2015<br>Ptarmigan Vineyards is owned By Stoney Mesa Winery in Cedaredge, CO.  We offer wine tasting, and special events facilities.  We offer a wide variety of award winning wines, and have a wonderful patio to relax on while visiting.  Our facility is also availabe to rent for meetings, and special events. Please call to confirm hours of operation, or to request information about renting our facility.<br><br>Dates Closed: January Hours: 11AM-5PM Wed-Sun (May-Oct) or by appointment  11AM-5PM Thur-Sat (Nov-Dec) or by appointment  11AM-5PM Fri-Sat (Feb-Apr) or by appointment</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading21" data-toggle="collapse" data-parent="#accordion" href="#collapse21" aria-expanded="false" aria-controls="collapse21"><img class="venue_image" src="img/Red.png"><h4 class="winery_title">Red Fox Cellars</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse21" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading21"><div class="panel-body"><p><b>Address:</b> 695 36 Road Unit C Palisade<br><b>Phone:</b> (970) 464-1099<br>Here at Red Fox Cellars, we pride ourselves in our bold adventurous wines, ciders, and wine cocktails. We are respectful but unbound by tradition.<br><br>SUNDAY: 11AM-4PM MONDAY: 11AM-4PM TUESDAY: 11AM-4PM WEDNESDAY: 11AM-PM THURSDAY: 11AM-4PM FRIDAY: 11AM-5PM SATURDAY: 11AM-5PM</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading22" data-toggle="collapse" data-parent="#accordion" href="#collapse22" aria-expanded="false" aria-controls="collapse22"><img class="venue_image" src="img/Res.png"><h4 class="winery_title">Restoration Vineyards</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse22" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading22"><div class="panel-body"><p><b>Address:</b> 3594 E 1/2 Road Palisade<br><b>Phone:</b> (970) 985-0832<br>We are a family-owned vineyard and winery located in Palisade, Colorado, on East Orchard Mesa, above the Colorado river. Our 10-acre property is surrounded by peach and cherry orchards with breathtaking views of the Grand Mesa and Bookcliff mountains. Our wines are made exclusively from grapes grown in our vineyard. We have 6 varieties planted – Barbera, Cabernet Franc, Merlot, Chardonnay, Sauvignon Blanc and Semillon. The name restoration was inspired by our passion for restoration projects – from homes to cars (vintage Mercedes Benz) to vineyards. Come visit us, try our fabulous wines and check out all of our Restoration Projects!<br><br>THURSDAY – MONDAY: 11AM – 5PM CLOSED: TUESDAY & WEDNESDAY</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading23" data-toggle="collapse" data-parent="#accordion" href="#collapse23" aria-expanded="false" aria-controls="collapse23"><img class="venue_image" src="img/Shi.png"><h4 class="winery_title">Shiras Winery</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse23" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading23"><div class="panel-body"><p><b>Address:</b> 449 Colorado Ave. Palisade<br><b>Phone:</b> (970) 242-2419<br>Welcome to Shiras Winery pronounced (shy-rahs). Inspired by the Shiras Moose Native to our American Rockies and Colorado. Craft Wines Arriving 2019! Tasting room is located in The Zesty Moose Marketplace. Pouring Wines from Colorados Western Slope and Front Range Wineries.<br><br>Dates Closed: Christmas New Years Thanksgiving   Hours: Monday-Friday: 10 a.m.- 6 p.m.  Saturday: 11 a.m.- 4 p.m.  Sundays: Closed (open by appointment)</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading24" data-toggle="collapse" data-parent="#accordion" href="#collapse24" aria-expanded="false" aria-controls="collapse24"><img class="venue_image" src="img/StK.png"><h4 class="winery_title">St Kathryn Cellars</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse24" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading24"><div class="panel-body"><p><b>Address:</b> 785 Elberta Ave Palisade<br><b>Phone:</b> (970) 464-1300<br>At St. Kathryn Cellars, we make wines to inspire and delight! Our winemakers craft jewel-like bottles with a variety of fruits and botanicals. Our wines are unique, flavorful and authentically crafted to taste just like the fruit of origin. We share a building with Talon Winery, known for their fruit-forward wines made in the classic style. Let us share the JOY of wine with you!<br><br>10 AM to 5 PM Sunday through Thursday; 10 AM to 6 PM Friday and Saturday, including public holidays.  Closed on major holidays, including Christmas, New Year''s Day, Easter, Independence Day and Thanksgiving.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading25" data-toggle="collapse" data-parent="#accordion" href="#collapse25" aria-expanded="false" aria-controls="collapse25"><img class="venue_image" src="img/Sto.png"><h4 class="winery_title">Stone Cottage Cellars</h4><p class="city"> Paonia</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse25" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading25"><div class="panel-body"><p><b>Address:</b> 8310  41716 Reds Rd  Paonia<br><b>Phone:</b>  (970) 527-3444<br>Stone Cottage Cellars is a family business and an ongoing labor of love. Over the years, we built Stone Cottage Cellars from the ground up, stone by stone, from the Stone Cottage, to the wine cellar, to the tasting room.<br><br>Open Everyday 11 AM – 6 PM (May – November)</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading26" data-toggle="collapse" data-parent="#accordion" href="#collapse26" aria-expanded="false" aria-controls="collapse26"><img class="venue_image" src="img/Tal.png"><h4 class="winery_title">Talbott''s Mountain Gold LLLP</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse26" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading26"><div class="panel-body"><p><b>Address:</b> 3782 F 1/4 Rd Palisade<br><b>Phone:</b> (970) 464-5656<br>Grower, shipper, packer, processor of peaches, apples, pears, wine grapes, cider and dried peaches. Also retail market.<br><br>Retail store is open seasonally from mid July thru December. Hours are 9:00am to 5:30pm Monday thru Saturday! Hours change after Thanksgiving so call for current info.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading27" data-toggle="collapse" data-parent="#accordion" href="#collapse27" aria-expanded="false" aria-controls="collapse27"><img class="venue_image" src="img/Tal2.png"><h4 class="winery_title">Talon Wines</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse27" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading27"><div class="panel-body"><p><b>Address:</b> 785 Elberta Ave. Palisade<br><b>Phone:</b> (970) 464-1300<br>Talon Winery is known for classic style, fruit-forward wines. Our methods preserve and enhance the flavors that develop naturally in grapes grown in Western Colorados high desert arid climate.<br><br>10 AM to 5 PM Sunday through Thursday; 10 AM to 6 PM Friday and Saturday, including public holidays.  Closed on major holidays, including Christmas, New Year''s Day, Easter, Independence Day and Thanksgiving.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading28" data-toggle="collapse" data-parent="#accordion" href="#collapse28" aria-expanded="false" aria-controls="collapse28"><img class="venue_image" src="img/The.png"><h4 class="winery_title">The Peachfork</h4><p class="city"> Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse28" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading28"><div class="panel-body"><p><b>Address:</b> 281 33 Rd  Palisade<br><b>Phone:</b> (970) 434-6273<br>Family owned orchard growing peaches, apples, and wine grapes. Packed by the box or the truckload. Also raising baby doll sheep.<br><br>Our tasting room is open Thursday through Saturday 12-6 pm.  Other days of the week are by appointment or if you can find us in the vineyard or orchard we are happy to stop work to taste wines.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading29" data-toggle="collapse" data-parent="#accordion" href="#collapse29" aria-expanded="false" aria-controls="collapse29"><img class="venue_image" src="img/Two.png"><h4 class="winery_title">Two Rivers Winery</h4><p class="city">Grand Junction</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse29" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading29"><div class="panel-body"><p><b>Address:</b> 2087 Broadway Grand Junction<br><b>Phone:</b> (970) 255-1471<br>"Located in the Redlands area of Grand Junction, we offer award winning wines of the noble varieties, which can be tasted and purchased in the intimate setting of our tasting room. Lodging available.<br><br>Our hours of operation are Monday – Saturday, 10:30 a.m. to 6:00 p.m. and Sunday, 12:00 p.m. to 5:00 p.m. The last tasting is at 5:30 p.m. Monday – Saturday, and 4:30 p.m. Sunday. Closed: New Year’s, Easter, 4th of July, Thanksgiving, and Christmas.</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading30" data-toggle="collapse" data-parent="#accordion" href="#collapse30" aria-expanded="false" aria-controls="collapse30"><img class="venue_image" src="img/Var.png"><h4 class="winery_title">Varaison Vineyards and Winery, LLC</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse30" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading30"><div class="panel-body"><p><b>Address:</b> 405 W 1st St Palisade<br><b>Phone:</b> (970) 464-4928<br>Purveyors of Estate Bottled Reserve Merlot, Chardonnay, Orange Muscat and Methode Charmat Champagne. The tasting room is in a unique Victorian atmosphere with a large capacity entertainment venue.<br><br>Tasting Room Hours No Appointment Necessary Sunday to Thursday 10am to 5pm Friday to Saturday10am to 6pm</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading31" data-toggle="collapse" data-parent="#accordion" href="#collapse31" aria-expanded="false" aria-controls="collapse31"><img class="venue_image" src="img/Whi.png"><h4 class="winery_title">Whitewater Hill Vineyards</h4><p class="city">Grand Junction</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse31" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading31"><div class="panel-body"><p><b>Address:</b> 220 32 Rd Grand Junction<br><b>Phone:</b> (970) 434-6868<br>Family owned and operated farm winery with great views from our tasting room. 100 Percent Colorado grown wines. Our award winning wines include classic dry, semi-sweet and dessert st<br><br>Daily 10AM - 5:45PM  Our hours can change during the year, especially during winter (January - February), so please call ahead (970-434-6868).</p></div></div></div>
+<div class="panel panel-default connect-cat"><div class="panel-heading collapsed" role="tab" id="heading32" data-toggle="collapse" data-parent="#accordion" href="#collapse32" aria-expanded="false" aria-controls="collapse32"><img class="venue_image" src="img/Win.png"><h4 class="winery_title">Wine Country Inn</h4><p class="city">Palisade</p><p class="hours"></p><p class="distancetext"></p></div><div id="collapse32" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading32"><div class="panel-body"><p><b>Address:</b> 777 Grande River Drive Palisade<br><b>Phone:</b>  (970) 464-5777<br>Visit Wine Country Inn and experience the romance of the vineyards at Colorado’s first wine-themed hotel. Stroll through the working vineyards that surround the Inn. Our Victorian style hotel sits in the middle of 21 acres of vines that produce grapes, which are crushed and bottled as our signature label wines.<br><br></p></div></div></div>
 
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <div class="">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Table View</a></li>
-            <li><a href="map.html">Map View</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-          </ul>
-          </div>
-    </div><!-- /.navbar-collapse -->
+</section>
+<!-- End of winery list -->
 
-  </div><!-- /.container-fluid -->
-</nav>
-
-            <div class="navtitle">Happy Hour Live View</div> 
-
-
-
-
-<div id="result"> </div>
-
-
+<!-- Start of map section -->
+<section class="major_section" id="route" style="display: none">
+    <div class="panel-group" id="raccordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="rheading1">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#raccordion" href="#rcollapse1" aria-expanded="false" aria-controls="rcollapse1" style="color:white">
+                    &#x25BC; Instructions &#x25BC;
+                </a>
+            </h4>
         </div>
-<div>
-<h2>Palisade Wine Helper</h2>
+        <div id="rcollapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="rheading1">
+            <div class="panel-body">
+                    <p>You can use the map below to help plan the most efficient way to travel between locations in the Palisade/Grand Junction area. You will start by specifying where you want to start your trip from. This will also be your ending location. Once you select a starting and ending location you can choose up to eight additional stops to make using the drop down menu. You can also choose if you are planning on traveling by car or bicycle and if you'd like to try and avoid highways. Once you've chosen all your locations you can click START and we run an optimzation tool to try and find you the most efficient order to travel between locations.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href="live.html">link text</a>
-  <div id="map-canvas" style="width:100vw; height:50vh;"></div>
+    <div id="map-canvas" style="width:100vw; height:50vh;"></div>
 
-  <br> 
-  
-  <div id="add_address">
-  <input id="address" type="textbox" value="Palisade, CO">
-  <input id="submit" type="button" value="Add Starting/Ending Address">
-  </div>
-  <div id="button_grp" style="display: none;">
-  <button id="find-route">Start</button>
-  <br>
-  <button id="clear-map">Clear</button><br>
-  </div>
-  <span>Permutations Tried: </span><span id="generations-passed"></span>
-  <div id="directionspanel"></div>
-  
+<br>
+
+<div id="add_address">
+    <input id="address" type="textbox" value="Palisade, CO" class="form-control">
+    <input id="submit" type="button" value="Add Starting/Ending Address" class="form-control">
+</div>
+<div id="button_grp" style="display: none;">
+    <button id="find-route" class="form-control">Start</button>
+    <br>
+    <button id="clear-map" class="form-control">Clear</button>
+    <br>
+</div>
+<span>Permutations Tried: </span><span id="generations-passed"></span>
+<div id="directionspanel"></div>
+
 <!--Search panel for venues -->
-<select name="report_type" id="venue_options" onchange="addmarker(this.value);nameslist(this[selectedIndex].id);removeselecter()" style="display: none;">
-<option value="38.82634,-107.60381"id="Alfred Eames Cellars">Alfred Eames Cellars</option>
-<option value="39.07861,-108.41027"id="Avant Vineyards">Avant Vineyards</option>
-<option value="38.88589,-107.58253"id="Black Bridge Winery">Black Bridge Winery</option>
-<option value="39.07221,-108.40469"id="Carlson Vineyards">Carlson Vineyards</option>
-<option value="39.07505,-108.39373"id="Colorado Cellars Winery">Colorado Cellars Winery</option>
-<option value="39.108054,-108.355876"id="Colterris Winery">Colterris Winery</option>
-<option value="38.60797,-108.03621"id="Cottonwood Cellars">Cottonwood Cellars</option>
-<option value="39.105627,-108.355456"id="DeBeque Canyon Winery">DeBeque Canyon Winery</option>
-<option value="39.04227,-108.45359"id="Desert Sun Vineyards">Desert Sun Vineyards</option>
-<option value="39.107404,-108.389369"id="Garfield Estates Vineyard and Winery">Garfield Estates Vineyard and Winery</option>
-<option value="39.117231,-108.362088"id="Grande River Vineyards">Grande River Vineyards</option>
-<option value="39.091901,-108.430842"id="Graystone Winery">Graystone Winery</option>
-<option value="39.09035,-108.3667"id="Gubbini Winery">Gubbini Winery</option>
-<option value="39.045728,-108.447431"id="Hermosa Vineyards">Hermosa Vineyards</option>
-<option value="39.104194,-108.389553"id="Maison La Belle Vie Winery">Maison La Belle Vie Winery</option>
-<option value="39.105832,-108.365821"id="Meadery of the Rockies">Meadery of the Rockies</option>
-<option value="39.046375,-108.436188"id="Mesa Park Vineyards">Mesa Park Vineyards</option>
-<option value="38.60738,-108.00163"id="Mountain View Winery">Mountain View Winery</option>
-<option value="39.106845,-108.365892"id="Plum Creek Winery">Plum Creek Winery</option>
-<option value="39.03675,-108.4749"id="Ptarmigan Vineyards">Ptarmigan Vineyards</option>
-<option value="39.10468,-108.38576"id="Red Fox Cellars">Red Fox Cellars</option>
-<option value="39.0846623,-108.3857671"id="Restoration Vineyards">Restoration Vineyards</option>
-<option value="39.06603,-108.56488"id="Shiras Winery">Shiras Winery</option>
-<option value="39.116621,-108.36067"id="St Kathryn Cellars">St Kathryn Cellars</option>
-<option value="38.899693,-107.577303"id="Stone Cottage Cellars">Stone Cottage Cellars</option>
-<option value="39.097046,-108.349879"id="Talbott's Mountain Gold LLLP">Talbott's Mountain Gold LLLP</option>
-<option value="39.116621,-108.36067"id="Talon Wines">Talon Wines</option>
-<option value="39.04591,-108.44237"id="The Peachfork">The Peachfork</option>
-<option value="39.090821,-108.662153"id="Two Rivers Winery">Two Rivers Winery</option>
-<option value="39.111978,-108.355815"id="Varaison Vineyards and Winery, LLC">Varaison Vineyards and Winery, LLC</option>
-<option value="39.03685,-108.45828"id="Whitewater Hill Vineyards">Whitewater Hill Vineyards</option>
-<option value="39.118056,-108.364689"id="Wine Country Inn">Wine Country Inn</option>
-           
+<select name="report_type" id="venue_options" onchange="addmarker(this.value);nameslist(this[selectedIndex].id);removeselecter()" style="display: none;" class="form-control">
+    <option value="38.82634,-107.60381" id="Alfred Eames Cellars">Alfred Eames Cellars</option>
+    <option value="39.07861,-108.41027" id="Avant Vineyards">Avant Vineyards</option>
+    <option value="38.88589,-107.58253" id="Black Bridge Winery">Black Bridge Winery</option>
+    <option value="39.07221,-108.40469" id="Carlson Vineyards">Carlson Vineyards</option>
+    <option value="39.07505,-108.39373" id="Colorado Cellars Winery">Colorado Cellars Winery</option>
+    <option value="39.108054,-108.355876" id="Colterris Winery">Colterris Winery</option>
+    <option value="38.60797,-108.03621" id="Cottonwood Cellars">Cottonwood Cellars</option>
+    <option value="39.105627,-108.355456" id="DeBeque Canyon Winery">DeBeque Canyon Winery</option>
+    <option value="39.04227,-108.45359" id="Desert Sun Vineyards">Desert Sun Vineyards</option>
+    <option value="39.107404,-108.389369" id="Garfield Estates Vineyard and Winery">Garfield Estates Vineyard and Winery</option>
+    <option value="39.117231,-108.362088" id="Grande River Vineyards">Grande River Vineyards</option>
+    <option value="39.091901,-108.430842" id="Graystone Winery">Graystone Winery</option>
+    <option value="39.09035,-108.3667" id="Gubbini Winery">Gubbini Winery</option>
+    <option value="39.045728,-108.447431" id="Hermosa Vineyards">Hermosa Vineyards</option>
+    <option value="39.104194,-108.389553" id="Maison La Belle Vie Winery">Maison La Belle Vie Winery</option>
+    <option value="39.105832,-108.365821" id="Meadery of the Rockies">Meadery of the Rockies</option>
+    <option value="39.046375,-108.436188" id="Mesa Park Vineyards">Mesa Park Vineyards</option>
+    <option value="38.60738,-108.00163" id="Mountain View Winery">Mountain View Winery</option>
+    <option value="39.106845,-108.365892" id="Plum Creek Winery">Plum Creek Winery</option>
+    <option value="39.03675,-108.4749" id="Ptarmigan Vineyards">Ptarmigan Vineyards</option>
+    <option value="39.10468,-108.38576" id="Red Fox Cellars">Red Fox Cellars</option>
+    <option value="39.0846623,-108.3857671" id="Restoration Vineyards">Restoration Vineyards</option>
+    <option value="39.06603,-108.56488" id="Shiras Winery">Shiras Winery</option>
+    <option value="39.116621,-108.36067" id="St Kathryn Cellars">St Kathryn Cellars</option>
+    <option value="38.899693,-107.577303" id="Stone Cottage Cellars">Stone Cottage Cellars</option>
+    <option value="39.097046,-108.349879" id="Talbott's Mountain Gold LLLP">Talbott's Mountain Gold LLLP</option>
+    <option value="39.116621,-108.36067" id="Talon Wines">Talon Wines</option>
+    <option value="39.04591,-108.44237" id="The Peachfork">The Peachfork</option>
+    <option value="39.090821,-108.662153" id="Two Rivers Winery">Two Rivers Winery</option>
+    <option value="39.111978,-108.355815" id="Varaison Vineyards and Winery, LLC">Varaison Vineyards and Winery, LLC</option>
+    <option value="39.03685,-108.45828" id="Whitewater Hill Vineyards">Whitewater Hill Vineyards</option>
+    <option value="39.118056,-108.364689" id="Wine Country Inn">Wine Country Inn</option>
+
 </select>
 
-
-
-
-
-
-
 <script type="text/javascript">
+    var names = [];
 
-var names=[];
-
-function nameslist(current_name) {
-     names.push(current_name);
-     console.log(names);
-}
-
-function addmarker(latlng) {
-
-    var array = latlng.split(",");
-    console.log(array)
-
-    var marker = new google.maps.Marker({
-        // The below line is equivalent to writing:
-        // position: new google.maps.LatLng(-34.397, 150.644)
-        position: {
-            lat: parseFloat(array[0]),
-            lng: parseFloat(array[1])
-        },
-
-        map: map,
-        title: "Drag me!",
-
-
-    });
-
-
-    markers.push(marker);
-
-
-    // Store node's lat and lng
-    nodes.push(marker.position);
-
-    // Update Node Count
-    var x_destinations = nodes.length.toString()
-    document.getElementById("destinations-count").innerHTML = x_destinations;
-
-    // Hide venues if 9 nodes have already been selected.
-    if (nodes.length >= 9) {
-    	document.getElementById("venue_options").style.display = "none";
-    	document.getElementById("venue_options_max").style.display = "block";
+    function nameslist(current_name) {
+        names.push(current_name);
+        console.log(names);
     }
 
-    // Fit to screen to all markers
-    var bounds = new google.maps.LatLngBounds();
+    function addmarker(latlng) {
 
-    // Create an array of all markers
-    for (var i = 0; i < markers.length; i++) {
-        bounds.extend(markers[i].getPosition());
+        var array = latlng.split(",");
+        console.log(array)
+
+        var marker = new google.maps.Marker({
+            // The below line is equivalent to writing:
+            // position: new google.maps.LatLng(-34.397, 150.644)
+            position: {
+                lat: parseFloat(array[0]),
+                lng: parseFloat(array[1])
+            },
+
+            map: map,
+            title: "Drag me!",
+
+        });
+
+        markers.push(marker);
+
+        // Store node's lat and lng
+        nodes.push(marker.position);
+
+        // Update Node Count
+        var x_destinations = nodes.length.toString()
+        document.getElementById("destinations-count").innerHTML = x_destinations;
+
+        // Hide venues if 9 nodes have already been selected.
+        if (nodes.length >= 9) {
+            document.getElementById("venue_options").style.display = "none";
+            document.getElementById("venue_options_max").style.display = "block";
+        }
+
+        // Fit to screen to all markers
+        var bounds = new google.maps.LatLngBounds();
+
+        // Create an array of all markers
+        for (var i = 0; i < markers.length; i++) {
+            bounds.extend(markers[i].getPosition());
+        }
+
+        // Do actual fitting
+        map.fitBounds(bounds);
+
+        // set a minimum zoom 
+        // if you got only 1 marker or all markers are on the same address map will be zoomed too much.
+        if (map.getZoom() > 15) {
+            map.setZoom(15);
+        }
+
     }
-
-    // Do actual fitting
-    map.fitBounds(bounds);
-
-    // set a minimum zoom 
-    // if you got only 1 marker or all markers are on the same address map will be zoomed too much.
-    if (map.getZoom() > 15) {
-        map.setZoom(15);
-    }
-
-}
-
 </script>
 
-  <div class="hr vpad"></div>
-  <div>
+<div class="hr vpad"></div>
+<div>
     <table id="options_table">
-         <tr >
+        <tr>
             <td>Destinations Count: (maximum of nine)</td>
             <td id="destinations-count">0</td>
         </tr>
@@ -1136,9 +1229,9 @@ function addmarker(latlng) {
             <td>Travel Mode: </td>
             <td>
                 <select id="travel-type">
-                    <option value="DRIVING">Car</option>
-                    <option value="BICYCLING">Bicycle</option>
-                    <option value="WALKING">Walking</option>
+                    <option value="DRIVING" class="form-control">Car</option>
+                    <option value="BICYCLING" class="form-control">Bicycle</option>
+                    <!-- <option value="WALKING">Walking</option> -->
                 </select>
             </td>
         </tr>
@@ -1151,7 +1244,7 @@ function addmarker(latlng) {
                 </select>
             </td>
         </tr>
-       <tr style="display: none">
+        <tr style="display: none">
             <td>Population Size: </td>
             <td>
                 <select id="population-size">
@@ -1219,69 +1312,114 @@ function addmarker(latlng) {
         <tr style="display: none">
             <td colspan="2"><b>Debug Info</b></td>
         </tr>
-       
+
         <tr class="ga-info" style="display:none;">
-            <td style="display:none;">Generations: </td><td style="display:none;" id="generations-passed">0</td>
+            <td style="display:none;">Generations: </td>
+            <td style="display:none;" id="generations-passed">0</td>
         </tr>
         <tr class="ga-info" style="display:none;">
-            <td style="display:none;">Best Time: </td><td id="best-time" style="display:none;">?</td>
+            <td style="display:none;">Best Time: </td>
+            <td id="best-time" style="display:none;">?</td>
         </tr>
         <tr id="ga-buttons" style="display: none">
             <td colspan="2"></td>
         </tr>
     </table>
     <p id="venue_options_max" style="display: none;">You have added the maximum number of locations possible</p>
-  </div>
+</div>
 </div>
 
-
-<h3>Learn More</h3>
-                  <p>The app provides you with the most efficient route of getting between breweries, cideries, and distilleries around Fort Collins. You can currently select up to nine locations to be included in your route; this includes your starting/ending location. You can choose to travel either by car or bicycle. Brew Route optimizations are based upon time and distance.</p>
-  <p>You will start by setting where you want to start your route. This will also be your ending location. Once your starting/ending location is set-up you can select the locations you want to include on your route.</p>
-
-
-
-<a href="http://onelink.to/683r2b" target="_blank"><h2>Front Range Happy Hours</h2>
-<p>Find happy hour deals for these locations and many others using the HHAp Apps. Available for iOS and Android</p>
-<img src="logo_ios.png" style="text-align: center; width: 30vw;"></a>
-
 <!-- Change Text in Directions -->
-<script>        
-function changetext(names_incoming){
-setTimeout(function(){
-    //do what you need here
+<script>
+    function changetext(names_incoming) {
+        setTimeout(function() {
+            //do what you need here
 
-var y=names_incoming;
+            var y = names_incoming;
 
-x=document.getElementsByClassName("adp-text");  // Find the elements
-    for(var i = 0; i < x.length; i++){
+            x = document.getElementsByClassName("adp-text"); // Find the elements
+            for (var i = 0; i < x.length; i++) {
 
-    x[i].innerText=y[i];    // Change the content
+                x[i].innerText = y[i]; // Change the content
 
-    if (y[i]==undefined){
-    x[i].innerText=y[0];
+                if (y[i] == undefined) {
+                    x[i].innerText = y[0];
 
+                }
+
+            }
+        }, 500);
     }
-
-    }
-console.log('test')
-}, 500);
-}
-
 </script>
 
 <!-- Clear Directions -->
 <script type="text/javascript">
     function removeElement() {
-    // Removes an element from the document
-    document.getElementById('directionspanel').innerHTML = "";
+        // Removes an element from the document
+        document.getElementById('directionspanel').innerHTML = "";
+    }
+</script>
+</section>
+<!-- End of map section -->
+
+<!-- Start of tour company section -->
+<section class="major_section" id="tour" style="display: none">
+  <h2>Local Tour Companies</h2>
+  <h4>Wine tasting is all about having fun but it is never alright to have too much fun and get behind the wheel. There are several different tour company options in the Palisade/Grand Junction area if you want to skip being responsible for a car.</h4>
+  <h5>Quick note - we are in no way associated or affiliated with these groups. We just want to make sure everyone gets home safe at the end of the day.</h5>
+  <div>
+    <a href="https://aplimo.com/services/wine-tours/">
+    <img src="https://aplimo.com/wp-content/uploads/2019/02/ap-logo-main.png" alt="Absolute Prestige Limo & Ranch" width="100vw"><h4>Absolute Prestige Limo & Ranch</h4></a><br>
+
+    <a href="https://www.pali-tours.com/">
+    <img src="https://static.wixstatic.com/media/b84eae_d8d722cde43948159ac9da900a081b21~mv2_d_4147_3779_s_4_2.png/v1/fill/w_294,h_268,al_c,q_85,usm_0.66_1.00_0.01/PALI-TOURS%20LOGO%20sun%20grass%20and%20garfield%20W.webp" alt="Pali Tours" width="100vw"><h4>Pali Tours</h4></a><br>
+
+    <a href="https://palisadepedicab.com/">
+    <img src="img/IMG_1131.jpg" alt="Palisade Pedicab" width="100vw"><h4>Palisade Pedicab</h4></a><br>
+
+        <a href="http://grandjunction-tours.com//">
+    <img src="http://grandjunction-tours.com/wp-content/uploads/2015/11/gjtoursnew_color.png" alt="Grand Junction Tours" width="100vw"><h4>Grand Junction Tours</h4></a><br>
+
+  <h2>How About Renting a Bike Instead?</h2>
+  <h5>Have no interest in being on a shuttle bus? How about renting a bike and getting your heart pumping as you go from spot to spot?</h5>
+
+
+        <a href="https://rapidcreekcycles.com/">
+    <img src="https://fh-sites.imgix.net/sites/2278/2019/02/08191229/logo-300x62.png?auto=compress%2Cformat&h=120&fit=max" alt="Rapid Creek Cycles" width="100vw"><h4>Rapid Creek Cycles</h4></a><br>
+
+        <a href="https://browncycles.com/bc/rental-bikes/">
+    <img src="img/BANNER-copy.jpg" alt="Brown Cycles" width="100vw"><h4>Brown Cycles</h4></a><br>
+  </div>
+</section>
+<!-- End of tour company section -->
+
+
+
+
+
+</div>
+
+<script>
+
+  document.getElementById("box").oninput=function(){
+  var matcher = new RegExp(document.getElementById("box").value, "gi");
+  for (var i=0;i<document.getElementsByClassName("connect-cat").length;i++) {
+    if (matcher.test(document.getElementsByClassName("winery_title")[i].innerHTML)||matcher.test(document.getElementsByClassName("city")[i].innerHTML)) {
+      document.getElementsByClassName("connect-cat")[i].style.display="inline-block";
+    } else {
+      document.getElementsByClassName("connect-cat")[i].style.display="none";
+    }
+      
+  }
 }
+  
 </script>
 
- <script type="text/javascript" src="cordova.js"></script>
-<!--<script type="text/javascript" src="js/admob.js"></script>-->
-<script type="text/javascript" src="phonegap.js"></script>
 
+  <script src="js/mapresources.js"></script>
 
-</body>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="js/index.js"></script>
+
+  </body>
 </html>

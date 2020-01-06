@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Generate an isochrone/isodistance with Google Maps API</title>
+		<script type="text/javascript" src="js/isochrone.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css" />
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+  <script src="js/main.js"></script>
+ 
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+
+
+<link rel="stylesheet" href="css/style.css" />
+
+
+		<style type="text/css">
+			#theMap {
+				width:100%;
+				height:60vh;
+			}
+			form .alert {
+				display:none;
+				margin:0;
+			}
+		</style>
+	</head>
+	<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+             <!-- <img src="logo.PNG" alt="Palisade Valley Wine Finder"> -->
+             <h3 style="margin-top: 10px; font-weight: bolder; color: white; padding-left: 10px">Palisade Wine Finder</h3>
+          </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <li><a href="index.html"  data-target=".navbar-collapse">Wineries</a></li>
+            <li><a href="index.html#routeload" onclick="route()" data-target=".navbar-collapse">Plan Route</a></li>
+            <li><a href="#"  data-target=".navbar-collapse">Find Nearby Locations</a></li>
+            <li><a href="index.html#tourload" onclick="tour()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+		<div class="container">
+			<p>You can find wineries and meaderies near to you using the map below. You can choose to find locations either within a set travel duration or physical distance. The map defaults to find locations near to you but you can also click on the map to set a new center point for your search.</p>
+			<p>After you click the search button you will see a polygon which is our best guess estimate of how far you could make travel in your specificed time or travel distance.</p>
+			<div class="col-xs-12">
+				<form action="index.html" method="get" onsubmit="return testIsochrone();">
+					<div class="form-group">
+						<div class="col-xs-12 row">
+							<div class="col-xs-12">
+								<div class="clearfix">
+									
+									<div class="col-xs-5"><label><input type="radio" name="type" id="typeDuration" checked="checked"/> Duration</label></div>
+									<div class="col-xs-5"><input type="text" name="value" id="durationValue" value="30" size="7" class="form-control" placeholder="60"/></div>
+									<div class="col-xs-2">minutes</div>
+								</div>
+								<p style="padding-top:10px">- OR- </p>
+								<div class="clearfix">
+									
+									<div class="col-xs-5"><label><input type="radio" name="type"/> Distance</label></div>
+									<div class="col-xs-5"><input type="text" name="value" id="distanceValue" value="10" size="7" class="form-control" placeholder="1760"/></div>
+									<div class="col-xs-2">miles</div>
+								</div>
+							</div>
+							
+						</div>
+						<br><br>
+						<div class="col-xs-12">
+							<p style="padding-top:10px; margin-bottom: 0px">Mode</p>
+							<div class="col-xs-12">
+								<!-- <label><input type="radio" name="mode" id="modeWalking" checked="checked"/> walking</label> -->
+								<label><input type="radio" name="mode" id="modeBicycling"/> Bicycling</label>
+								<label><input type="radio" name="mode" id="modeDriving"/> Driving</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+								<div class="col-xs-12">
+									<input type="submit" value="Start your search!" class="form-control"/>
+								</div>
+								<div class="col-xs-12">
+									<div class="alert alert-warning" id="computing">Computing...</div>
+									<div class="alert alert-danger" id="error">Error...</div>
+								</div>
+							</div>
+				</form>
+			</div>
+			<div class="col-xs-12">
+				<div id="theMap"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var marker = false,
+			polygon = false,
+			latitude = 39.10754,
+			longitude = -108.358897;
+			isochrone.load({
+				map: 'theMap',
+				key: 'AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ', // Do change the key: it won't work on your domain anyway :-)
+				callback: function (iso)
+				{
+					var locations =[['Alfred Eames Cellars',38.82634,-107.60381],
+								['Avant Vineyards',39.07861,-108.41027],
+								['Black Bridge Winery',38.88589,-107.58253],
+								['Carlson Vineyards',39.07221,-108.40469],
+								['Colorado Cellars Winery',39.07505,-108.39373],
+								['Colterris Winery',39.115529,-108.325794],
+								['Cottonwood Cellars',38.60797,-108.03621],
+								['DeBeque Canyon Winery',39.105627,-108.355456],
+								['Desert Sun Vineyards',39.04227,-108.45359],
+								['Garfield Estates Vineyard and Winery',39.107404,-108.389369],
+								['Grande River Vineyards',39.117231,-108.362088],
+								['Graystone Winery',39.091901,-108.430842],
+								['Gubbini Winery',39.09035,-108.3667],
+								['Hermosa Vineyards',39.045728,-108.447431],
+								['Maison La Belle Vie Winery',39.104194,-108.389553],
+								['Meadery of the Rockies',39.105832,-108.365821],
+								['Mesa Park Vineyards',39.046375,-108.436188],
+								['Mountain View Winery',38.60738,-108.00163],
+								['Plum Creek Winery',39.106845,-108.365892],
+								['Ptarmigan Vineyards',39.03675,-108.4749],
+								['Red Fox Cellars',39.10468,-108.38576],
+								['Restoration Vineyards',39.0846623,-108.3857671],
+								['Shiras Winery',39.06603,-108.56488],
+								['St Kathryn Cellars',39.116621,-108.36067],
+								['Stone Cottage Cellars',38.899693,-107.577303],
+								['Talbotts Mountain Gold LLLP',39.097046,-108.349879],
+								['Talon Wines',39.116621,-108.36067],
+								['The Peachfork',39.04591,-108.44237],
+								['Two Rivers Winery',39.090821,-108.662153],
+								['Varaison Vineyards and Winery, LLC',39.111978,-108.355815],
+								['Whitewater Hill Vineyards',39.03685,-108.45828],
+								['Wine Country Inn',39.118056,-108.364689]
+								];
+
+				var infowindow = new google.maps.InfoWindow;
+
+				for (i = 0; i < locations.length; i++) {  
+   				marker = new google.maps.Marker({
+         		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+         		map: iso.map.map,
+         		icon: 'img/icon.png'
+    			});
+
+    			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+         		return function() {
+             	infowindow.setContent(locations[i][0]);
+             	infowindow.open(iso.map.map, marker);
+         		}
+    			})(marker, i));
+}
+				navigator.geolocation.getCurrentPosition(showPosition);
+
+    			function showPosition(position) {
+        		var lat2 = position.coords.latitude;
+        		var lon2 = position.coords.longitude;
+        		marker = new google.maps.Marker({position: {lat: lat2, lng: lon2}, map: iso.map.map, icon: 'img/current.png'});
+            	}
+
+					// marker = new google.maps.Marker({position: {lat: latitude, lng: longitude}, map: iso.map.map, icon: 'img/current.png'});
+					iso.map.map.setOptions({
+						clickableIcons: false,
+						draggableCursor: 'pointer',
+						styles: [{
+								featureType: "poi",
+								elementType: "labels",
+								stylers: [{visibility: "off"}]
+							}]
+					});
+					iso.map.map.addListener('click', function (data)
+					{
+						latitude = data.latLng.lat();
+						longitude = data.latLng.lng();
+						marker.setPosition({lat: latitude, lng: longitude});
+					});
+
+
+				},
+				debug: true
+			});
+			/* Allow to click on the map */
+			function testIsochrone()
+			{
+				document.getElementById('error').style.display = 'none';
+				document.getElementById('computing').style.display = 'block';
+				if (polygon)
+				{
+					polygon.setMap(null);
+					polygon = null;
+				}
+				isochrone.compute({
+					lat: latitude,
+					lng: longitude,
+					cycles: 5,
+					slices: 8,
+					type: document.getElementById('typeDuration').checked ? 'duration' : 'distance',
+					value: parseFloat(document.getElementById(document.getElementById('typeDuration').checked ? 'durationValue' : 'distanceValue').value.replace(',', '.'))*parseFloat(document.getElementById(document.getElementById('typeDuration').checked ? 'durationValue' : 'distanceValue').placeholder),
+					mode: document.getElementById('modeWalking').checked ? 'walking' : (document.getElementById('modeBicycling').checked ? 'bicycling' : (document.getElementById('modeDriving').checked ? 'driving' : 'transit')),
+					callback: function (status, points)
+					{
+						document.getElementById('computing').style.display = 'none';
+						if (status === 'OK')
+						{
+							polygon = new google.maps.Polygon({path: points});
+							polygon.setMap(isochrone.map.map);
+						}
+						else
+						{
+							document.getElementById('error').innerHTML = status;
+							document.getElementById('error').style.display = 'block';
+						}
+					}
+				});
+				return false;
+			}
+		</script>
+	</body>
+</html>

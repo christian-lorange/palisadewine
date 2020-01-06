@@ -6,10 +6,10 @@
         id        = "com.orangehousepalisade.app"
         version   = "1.0.1">
 
-    <name>Palisade Wine</name>
+    <name>Palisade Wine Finder</name>
 
     <description>
-        Optimize your driving and biking routes between breweries, distilleries, wineries, and cideries in Northern Colorado
+        Explore some of the amazing wineries in Palisade Colorado
     </description>
 
     <author href="http://phonegap.com" email="lorange.christian@gmail.com">
@@ -66,10 +66,7 @@
     <plugin name="cordova-plugin-network-information" />
     <plugin name="cordova-plugin-splashscreen" />
 
-     <gap:plugin name="com.ezartech.ezar.videooverlay" source="npm"/>
-
-
-   
+  
  
 
 
