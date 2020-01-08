@@ -49,10 +49,12 @@ function navfunction() {
 
 	if (window.location.hash === "#routeload") {
 		route();
+        adcount();
         }
 
      if (window.location.hash === "#tourload") {
 		tour();
+        adcount();
         }
 
     var locs = [
@@ -1059,7 +1061,7 @@ function adcount() {
             <li><a href="#" onclick="route();adcount()" data-target=".navbar-collapse">Plan Route</a></li>
             <!-- <li><a href="map.html"  data-target=".navbar-collapse">Map View</a></li> -->
             <li><a href="iso.html"  data-target=".navbar-collapse">Find Nearby Locations</a></li>
-            <li><a href="#" onclick="tour()adcount()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
+            <li><a href="#" onclick="tour();adcount()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
