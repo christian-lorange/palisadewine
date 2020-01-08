@@ -10,13 +10,14 @@
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
   <script src="js/main.js"></script>
+  <script src="js/admob.js"></script>
+
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ">//AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ</script> 
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
 
 
 <link rel="stylesheet" href="css/style.css" />
@@ -1002,10 +1003,39 @@ for (i = 0; i < acc.length; i++) {
     });
 }
 
-
 </script>
 <!-- End of routing script -->
 
+
+
+<!--Trigger interstitial add after 30 seconds -->
+<script type="text/javascript">
+// setTimeout("CallButton()",30000)
+function CallButton()
+{
+     admob.interstitial.show()    
+}
+</script>
+
+<script type="text/javascript">
+function adcount() {
+   if (localStorage.getItem("tracking") === null) {
+    localStorage.setItem("tracking", "1");
+   }
+
+  
+  var tracking_current = localStorage.getItem("tracking");
+  var tracking_current = tracking_current+parseInt("1");
+
+  localStorage.setItem("tracking", tracking_current);
+
+  if(tracking_current.length>=4){
+    CallButton()
+    localStorage.setItem("tracking", "1");
+  }
+  
+}
+</script>
 </head>
 <body onload="navfunction()">
 
@@ -1025,11 +1055,11 @@ for (i = 0; i < acc.length; i++) {
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <li><a href="#" onclick="showwineeries()" data-target=".navbar-collapse">Wineries</a></li>
-            <li><a href="#" onclick="route()" data-target=".navbar-collapse">Plan Route</a></li>
+            <li><a href="#" onclick="showwineeries();adcount()" data-target=".navbar-collapse">Wineries</a></li>
+            <li><a href="#" onclick="route();adcount()" data-target=".navbar-collapse">Plan Route</a></li>
             <!-- <li><a href="map.html"  data-target=".navbar-collapse">Map View</a></li> -->
             <li><a href="iso.html"  data-target=".navbar-collapse">Find Nearby Locations</a></li>
-            <li><a href="#" onclick="tour()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
+            <li><a href="#" onclick="tour()adcount()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -1420,6 +1450,10 @@ for (i = 0; i < acc.length; i++) {
 
   <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
   <script src="js/index.js"></script>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/admob.js"></script>
+  <script type="text/javascript" src="phonegap.js"></script>
 
   </body>
 </html>
