@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+      body{text-align: center;}
+
+        #id_smell input[type="checkbox"] {
+  display: none;
+}
+
+#id_smell span {
+  display: inline-block;
+  padding: 10px;
+  text-transform: uppercase;
+  border: 2px solid #80434B;
+  border-radius: 3px;
+  color: #80434B;
+  width: auto !important;
+  font-size: 2em;
+}
+
+#id_smell input[type="checkbox"]:checked + span {
+  background-color: #80434B;
+  color: white;
+}
+
+input.smell {
+  width: 100vw;
+}
+
+p#id_smell {
+  text-align: center;
+}
+
+
+#id_taste input[type="checkbox"] {
+  display: none;
+}
+
+#id_taste span {
+  display: inline-block;
+  padding: 10px;
+  text-transform: uppercase;
+  border: 2px solid #80434B;
+  border-radius: 3px;
+  color: #80434B;
+  width: auto !important;
+  font-size: 2em;
+}
+
+#id_taste input[type="checkbox"]:checked + span {
+  background-color: #80434B;
+  color: white;
+}
+
+input.taste {
+  width: 100vw;
+}
+
+p#id_taste {
+  text-align: center;
+}
+
+
+
+#id_mouth input[type="checkbox"] {
+  display: none;
+}
+
+#id_mouth span {
+  display: inline-block;
+  padding: 10px;
+  text-transform: uppercase;
+  border: 2px solid #80434B;
+  border-radius: 3px;
+  color: #80434B;
+  width: auto !important;
+  font-size: 2em;
+}
+
+#id_mouth input[type="checkbox"]:checked + span {
+  background-color: #80434B;
+  color: white;
+}
+
+input.mouth {
+  width: 100vw;
+}
+
+p#id_mouth {
+  text-align: center;
+}
+
+
+.rating {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: #09f;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #09f;
+}
+
+select {
+font-size: 2em;
+width: 75vw;
+}
+
+input {
+font-size: 2em;
+width: 75vw;
+}
+
+h4.panel-title {
+  font-size: 2em;
+}
+
+    </style>
+</head>
+<body>
+
+<h2>Winery</h2>
+<select id="wineryselected">
+<option value="1">Alfred Eames Cellars</option>
+<option value="2">Avant Vineyards</option>
+<option value="3">Black Bridge Winery</option>
+<option value="4">Carlson Vineyards</option>
+<option value="5">Colorado Cellars Winery</option>
+<option value="6">Colterris Winery</option>
+<option value="7">Cottonwood Cellars</option>
+<option value="8">DeBeque Canyon Winery</option>
+<option value="9">Desert Sun Vineyards</option>
+<option value="10">Garfield Estates Vineyard and Winery</option>
+<option value="11">Grande River Vineyards</option>
+<option value="12">Graystone Winery</option>
+<option value="13">Gubbini Winery</option>
+<option value="14">Hermosa Vineyards</option>
+<option value="15">Maison La Belle Vie Winery</option>
+<option value="16">Meadery of the Rockies</option>
+<option value="17">Mesa Park Vineyards</option>
+<option value="18">Mountain View Winery</option>
+<option value="19">Plum Creek Winery</option>
+<option value="20">Ptarmigan Vineyards</option>
+<option value="21">Red Fox Cellars</option>
+<option value="22">Restoration Vineyards</option>
+<option value="23">Shiras Winery</option>
+<option value="24">StKathryn Cellars</option>
+<option value="25">Stone Cottage Cellars</option>
+<option value="26">Talbott's Mountain Gold LLLP</option>
+<option value="27">Talon Wines</option>
+<option value="28">The Peachfork</option>
+<option value="29">Two Rivers Winery</option>
+<option value="30">Varaison Vineyards and Winery, LLC</option>
+<option value="31">Whitewater Hill Vineyards</option>
+<option value="32">Wine Country Inn</option>
+</select>
+
+<br>
+<h2>Wine Being Tasted</h2>
+<input type="text" name="winename" id="winename">
+   
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading3" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                    Aroma
+                </a>
+            </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+            <div class="panel-body">
+   <p id="id_smell">
+  <label><input type="checkbox" name="smell" class="smell" value="1"><span>Acetic</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="2"><span>Almonds</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="3"><span>Apples</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="4"><span>Bananas</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="5"><span>Beery</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="6"><span>Blackcurrant</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="7"><span>Butyric (Spoiled)</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="8"><span>Cherry</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="9"><span>Chocolate</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="10"><span>Citrus</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="11"><span>Clove</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="12"><span>Coffee</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="13"><span>Flowery </span></label>
+<label><input type="checkbox" name="smell" class="smell" value="14"><span>Fragrant </span></label>
+<label><input type="checkbox" name="smell" class="smell" value="15"><span>Garlic </span></label>
+<label><input type="checkbox" name="smell" class="smell" value="16"><span>Grapefruit</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="17"><span>Grapey</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="18"><span>Honey</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="19"><span>Jam</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="20"><span>Jasmine</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="21"><span>Juniper</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="22"><span>Leather</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="23"><span>Madeirized (Flat)</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="24"><span>Mint</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="25"><span>Nutmeg</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="26"><span>Oaky</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="27"><span>Peaches</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="28"><span>pepper</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="29"><span>Pine</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="30"><span>Pineapple</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="31"><span>Plum</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="32"><span>Raspberry</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="33"><span>Rose</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="34"><span>Strawberries</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="35"><span>Sulphur</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="36"><span>Tobacoo</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="37"><span>Turpentine</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="38"><span>Vanilla</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="39"><span>Violet</span></label>
+<label><input type="checkbox" name="smell" class="smell" value="40"><span>Yeasty</span></label>
+</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading4" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                    Taste
+                </a>
+            </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+            <div class="panel-body">
+   <p id="id_taste">
+  <label><input type="checkbox" name="taste" class="taste" value="1"><span>Acetic</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="2"><span>Almond</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="3"><span>Apples</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="4"><span>Big</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="5"><span>Bite</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="6"><span>Bitter</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="7"><span>Black Peppers</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="8"><span>Blackcurrant</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="9"><span>Caramel</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="10"><span>Cherries</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="11"><span>Chocolate</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="12"><span>Citrus</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="13"><span>Coffee</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="14"><span>Crisp</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="15"><span>Dark Fruits</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="16"><span>Dry</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="17"><span>Earth</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="18"><span>Earthy</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="19"><span>Fat</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="20"><span>Flat</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="21"><span>Floral</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="22"><span>Grass</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="23"><span>Green</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="24"><span>Honey</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="25"><span>Leather</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="26"><span>Licorice</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="27"><span>Lychee</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="28"><span>Melon</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="29"><span>Metalic</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="30"><span>Mushrooms</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="31"><span>Nutmeg</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="32"><span>Oaky</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="33"><span>Peaches</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="34"><span>Pears</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="35"><span>Plums</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="36"><span>Sweet</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="37"><span>Tart</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="38"><span>Toast</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="39"><span>Tobacoo</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="40"><span>Vanilla</span></label>
+<label><input type="checkbox" name="taste" class="taste" value="41"><span>Woody</span></label>
+
+</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading5" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                    Mouth Feel
+                </a>
+            </h4>
+        </div>
+        <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+            <div class="panel-body">
+              <p id="id_mouth">
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Astringent (puckering)</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Bubbly</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Burning</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Effervescent</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Full </span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Gritty</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Harsh</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Light</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Prickly</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Silky</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Smooth</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Sparkling</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Thin</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Unctuous (Oily)</span></label>
+<label><input type="checkbox" name="mouth" class="mouth" value="1"><span>Velvety</span></label>
+</p>
+
+<div>
+  <h3>Finish</h3>
+  <select id="finish">
+  <option value="1">Non-existent</option>
+  <option value="2">Short</option>
+  <option value="3">Moderate</option>
+  <option value="4">Long</option>
+  <option value="5">Very Long</option>
+</select>
+</div>
+
+<div>
+  <h3>Body</h3>
+  <select id="bodyfeel">
+  <option value="1">Light</option>
+  <option value="2">Medium</option>
+  <option value="3">Full</option>
+</select>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h2>Wine Rating</h2>
+<form class="rating">
+  <label>
+    <input type="radio" name="stars" value="1" />
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="2" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="3" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>   
+  </label>
+  <label>
+    <input type="radio" name="stars" value="4" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="5" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+</form>
+
+
+
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>
