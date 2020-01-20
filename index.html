@@ -3,22 +3,44 @@
 <head>
   <title>Palisade Valley Wine</title>
 
+
+
   <script type="text/javascript">
-    
+
+
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','analytics.js','ga');
+})(window,document,'script','js/analytics.js','ga_anl');
 
-var ua = 'UA-40436303-5';
-    ga('create', ua, {'storage': 'none','clientId': '92bf24a5-20e5-4181-9778-2835f28c52d8'});
-    ga('set','checkProtocolTask',null);
-    ga('set','checkStorageTask',null);
-    ga('send', 'pageview', {'page': 'index.html'});     
+    var ua = 'UA-40436303-5';
+    ga_anl('create', ua, {'storage': 'none','clientId': '92bf24a5-20e5-4181-9778-2835f28c52d8'});
+    ga_anl('set','checkProtocolTask',null);
+    ga_anl('set','checkStorageTask',null);
+    ga_anl('send', 'pageview', {'page': 'index.html'});
+    ga_anl('send', 'event', 'Web Application', 'Login', 'Logged in via public website');
+
+      
 
 </script>
 
+<script type="text/javascript">
+    function push(){ga_anl('send', 'event', 'Web Application5', 'Login', 'Logged in via public website');}
+</script>
 
+<!-- <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40436303-5', {'storage': 'none','clientId': '92bf24a5-20e5-4181-9778-2835f28c52d8'});
+ga('set','checkProtocolTask',null);
+ ga('set','checkStorageTask',null);
+ga('send', 'pageview',{'page': '\index.html'});
+ga('send', 'event', 'Web Application', 'Login', 'Logged in via public website');
+</script>
+ -->
 
   <meta name="viewport" content="width=device-width, user-scalable=no">
 
@@ -28,6 +50,7 @@ var ua = 'UA-40436303-5';
 
   <script src="js/main.js"></script>
   <script src="js/admob.js"></script>
+
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ">//AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ</script> 
 
@@ -1067,6 +1090,7 @@ function adcount() {
 </script>
 </head>
 <body onload="navfunction()">
+<input type= "button" value ="Click Me" onclick="push()";/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -1085,7 +1109,7 @@ function adcount() {
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <li><a href="#" onclick="showwineeries();adcount()" data-target=".navbar-collapse">Wineries</a></li>
-            <li><a href="#" onclick="route();adcount()" data-target=".navbar-collapse">Plan Route</a></li>
+            <li><a href="#" onclick="route();adcount();ga('send', 'event', 'Web Application2', 'Additional', 'Logged in via public website')  " data-target=".navbar-collapse">Plan Route</a></li>
             <!-- <li><a href="map.html"  data-target=".navbar-collapse">Map View</a></li> -->
             <li><a href="iso.html"  data-target=".navbar-collapse">Find Nearby Locations</a></li>
             <li><a href="#" onclick="tour();adcount()" data-target=".navbar-collapse">Tour Companies & Bike Rentals</a></li>
@@ -1443,7 +1467,6 @@ function adcount() {
 }
   
 </script>
-
 
 
 
