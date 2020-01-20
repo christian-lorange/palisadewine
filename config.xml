@@ -66,9 +66,7 @@
     <plugin name="cordova-plugin-network-information" />
     <plugin name="cordova-plugin-splashscreen" />
 
-    <!-- Analytics -->
-    <plugin name="cordova-plugin-firebase" spec="^2.0.0" />
- 
+  
  
 
 
