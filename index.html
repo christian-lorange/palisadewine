@@ -27,7 +27,8 @@
 <!-- Load locations -->
 <script type="text/javascript">
 setTimeout(function(){
- $("#venues").load( "https://rawgit.com/christian-lorange/happyhour/master/hh.html" );
+ $("#venues").load( "https://raw.githack.com/christian-lorange/palisadewine/master/venues.html" );
+ console.log('valdate')
   },200);
 </script>
 <!-- End of loading locations -->
@@ -1408,30 +1409,6 @@ function adcount() {
 
 
 </div>
-
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCWc3BQ8hR5j15Di0625WMTnZNSscgFMic",
-    authDomain: "palisadewinefinder.firebaseapp.com",
-    databaseURL: "https://palisadewinefinder.firebaseio.com",
-    projectId: "palisadewinefinder",
-    storageBucket: "palisadewinefinder.appspot.com",
-    messagingSenderId: "855408017871",
-    appId: "1:855408017871:web:002aa4dff9cbfb449112ba",
-    measurementId: "G-B2RMTJPV2N"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
 
 
 
