@@ -13,8 +13,16 @@
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','js/analytics.js','ga_anl');
 
+    // Setting unique ID for device
+    var ID = window.localStorage.getItem('pal_ID');
+    if (ID ==null) {
+    window.localStorage.setItem('pal_ID', Math.floor(Math.random() * 0x7FFFFFFF) + "." + Math.floor(Date.now() / 1000));  
+    var ID = window.localStorage.getItem('pal_ID');
+    }
+    
+    console.log(ID)
     var ua = 'UA-40436303-5';
-    ga_anl('create', ua, {'storage': 'none','clientId': '92bf24a5-20e5-4181-9778-2835f28c52d8'});
+    ga_anl('create', ua, {'storage': 'none','clientId': ID});
     ga_anl('set','checkProtocolTask',null);
     ga_anl('set','checkStorageTask',null);
     ga_anl('send', 'pageview', {'page': 'index.html'});
@@ -1090,7 +1098,6 @@ function adcount() {
 </script>
 </head>
 <body onload="navfunction()">
-<input type= "button" value ="Click Me" onclick="push()";/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
