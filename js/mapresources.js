@@ -87,15 +87,6 @@ var stations = {"type": "FeatureCollection",
     }
   },
 {"type": "Feature","properties": {
-      "STATION": "Desert Sun Vineyards",
-      "ST_CODE": "MGRP",
-    },
-    "geometry": {
-      "type": "Point",
-      "coordinates": [-108.45359,39.04227]
-    }
-  },
-{"type": "Feature","properties": {
       "STATION": "Garfield Estates Vineyard and Winery",
       "ST_CODE": "MGRP",
     },
