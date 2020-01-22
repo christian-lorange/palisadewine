@@ -113,9 +113,12 @@ body {
 }
 
 #box {
-  width:100vw; 
+  width:90vw; 
   font-weight: bolder;
   margin-bottom: 10px;
+  text-align: center;
+  border-radius: 5px;
+  border-width: 3px;
 }
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Generate an isochrone/isodistance with Google Maps API</title>
+		<title>Nearby Locations</title>
 		<script type="text/javascript" src="js/isochrone.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
@@ -19,6 +19,32 @@
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
+
+  <script type="text/javascript">
+
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','js/analytics.js','ga_anl');
+
+    // Setting unique ID for device
+    var ID = window.localStorage.getItem('pal_ID');
+    if (ID ==null) {
+    window.localStorage.setItem('pal_ID', Math.floor(Math.random() * 0x7FFFFFFF) + "." + Math.floor(Date.now() / 1000));  
+    var ID = window.localStorage.getItem('pal_ID');
+    }
+
+    ga_anl('set', 'userId', ID); // Set the user ID using signed-in user_id.
+    
+    var ua = 'UA-40436303-5';
+    ga_anl('create', ua, {'storage': 'none','clientId': ID});
+    ga_anl('set','checkProtocolTask',null);
+    ga_anl('set','checkStorageTask',null);
+ 	ga_anl('send', 'pageview', {'page': 'NearBy.html'});  
+
+
+</script>
 
 
 <link rel="stylesheet" href="css/style.css" />
@@ -204,6 +230,7 @@
 			/* Allow to click on the map */
 			function testIsochrone()
 			{
+
 				document.getElementById('error').style.display = 'none';
 				document.getElementById('computing').style.display = 'block';
 				if (polygon)
@@ -226,6 +253,7 @@
 						{
 							polygon = new google.maps.Polygon({path: points});
 							polygon.setMap(isochrone.map.map);
+							ga_anl('send', 'event', 'Activity', 'Action', 'Isochrone');
 						}
 						else
 						{
