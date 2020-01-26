@@ -73,6 +73,7 @@ ga('send', 'event', 'Web Application', 'Login', 'Logged in via public website');
 <script type="text/javascript">
 setTimeout(function(){
  $("#venues").load( "https://raw.githack.com/christian-lorange/palisadewine/master/venues.html" );
+ $("#search_p_venues").load( "https://raw.githack.com/christian-lorange/palisadewine/master/search_p_venues.html" );
 
   },200);
 </script>
@@ -112,10 +113,10 @@ function navfunction() {
         adcount();
         }
 
-    var locs = [
-        ["38.82634","-107.60381"],["39.07861","-108.41027"],["38.88589","-107.58253"],["39.07221","-108.40469"],["39.07505","-108.39373"],["39.115529","-108.325794"],["38.60797","-108.03621"],["39.105627","-108.355456"],["39.107404","-108.389369"],["39.117231","-108.362088"],["39.091901","-108.430842"],["39.09035","-108.3667"],["39.045728","-108.447431"],["39.104194","-108.389553"],["39.105832","-108.365821"],["39.046375","-108.436188"],["38.60738","-108.00163"],["39.106845","-108.365892"],["39.03675","-108.4749"],["39.10468","-108.38576"],["39.0846623","-108.3857671"],["39.06603","-108.56488"],["39.116621","-108.36067"],["38.899693","-107.577303"],["39.097046","-108.349879"],["39.116621","-108.36067"],["39.04591","-108.44237"],["39.090821","-108.662153"],["39.111978","-108.355815"],["39.03685","-108.45828"],["39.118056","-108.364689"]
-    ]
-    var hourstext = ['By Appointment','May-Sept<br>Fri: 12-5<br>Sat: 11-5<br>Sun: 12-4<br>Mon-Thur: By Appointment','Memorial Day - Halloween<br>10-6','10am-5:45pm','Winter: M-F 9 - 4<br>Sat 11 - 5<br>Summer: M-F 9 - 5<br>Sat/Sun 10 - 5','10am - 5pm','By Appointment','Late April-October<br>Sun - Thurs <br>11 - 6<br>Fri/Sat 11 -7<br>October to late April<br> Sun - Fri Noon- 5<br>Sat 11 -5']
+    // var locs = [
+    //     ["38.82634","-107.60381"],["39.07861","-108.41027"],["38.88589","-107.58253"],["39.07221","-108.40469"],["39.07505","-108.39373"],["39.115529","-108.325794"],["38.60797","-108.03621"],["39.105627","-108.355456"],["39.107404","-108.389369"],["39.117231","-108.362088"],["39.091901","-108.430842"],["39.09035","-108.3667"],["39.045728","-108.447431"],["39.104194","-108.389553"],["39.105832","-108.365821"],["39.046375","-108.436188"],["38.60738","-108.00163"],["39.106845","-108.365892"],["39.03675","-108.4749"],["39.10468","-108.38576"],["39.0846623","-108.3857671"],["39.06603","-108.56488"],["39.116621","-108.36067"],["38.899693","-107.577303"],["39.097046","-108.349879"],["39.116621","-108.36067"],["39.04591","-108.44237"],["39.090821","-108.662153"],["39.111978","-108.355815"],["39.03685","-108.45828"],["39.118056","-108.364689"]
+    // ]
+
 
     navigator.geolocation.getCurrentPosition(showPosition);
 
@@ -1194,40 +1195,9 @@ function adcount() {
 <div id="directionspanel"></div>
 
 <!--Search panel for venues -->
-<select name="report_type" id="venue_options" onchange="addmarker(this.value);nameslist(this[selectedIndex].id);removeselecter()" style="display: none;" class="form-control">
-    <option value="38.82634,-107.60381" id="Alfred Eames Cellars">Alfred Eames Cellars</option>
-    <option value="39.07861,-108.41027" id="Avant Vineyards">Avant Vineyards</option>
-    <option value="38.88589,-107.58253" id="Black Bridge Winery">Black Bridge Winery</option>
-    <option value="39.07221,-108.40469" id="Carlson Vineyards">Carlson Vineyards</option>
-    <option value="39.07505,-108.39373" id="Colorado Cellars Winery">Colorado Cellars Winery</option>
-    <option value="39.108054,-108.355876" id="Colterris Winery">Colterris Winery</option>
-    <option value="38.60797,-108.03621" id="Cottonwood Cellars">Cottonwood Cellars</option>
-    <option value="39.105627,-108.355456" id="DeBeque Canyon Winery">DeBeque Canyon Winery</option>
-    <option value="39.107404,-108.389369" id="Garfield Estates Vineyard and Winery">Garfield Estates Vineyard and Winery</option>
-    <option value="39.117231,-108.362088" id="Grande River Vineyards">Grande River Vineyards</option>
-    <option value="39.091901,-108.430842" id="Graystone Winery">Graystone Winery</option>
-    <option value="39.09035,-108.3667" id="Gubbini Winery">Gubbini Winery</option>
-    <option value="39.045728,-108.447431" id="Hermosa Vineyards">Hermosa Vineyards</option>
-    <option value="39.104194,-108.389553" id="Maison La Belle Vie Winery">Maison La Belle Vie Winery</option>
-    <option value="39.105832,-108.365821" id="Meadery of the Rockies">Meadery of the Rockies</option>
-    <option value="39.046375,-108.436188" id="Mesa Park Vineyards">Mesa Park Vineyards</option>
-    <option value="38.60738,-108.00163" id="Mountain View Winery">Mountain View Winery</option>
-    <option value="39.106845,-108.365892" id="Plum Creek Winery">Plum Creek Winery</option>
-    <option value="39.03675,-108.4749" id="Ptarmigan Vineyards">Ptarmigan Vineyards</option>
-    <option value="39.10468,-108.38576" id="Red Fox Cellars">Red Fox Cellars</option>
-    <option value="39.0846623,-108.3857671" id="Restoration Vineyards">Restoration Vineyards</option>
-    <option value="39.06603,-108.56488" id="Shiras Winery">Shiras Winery</option>
-    <option value="39.116621,-108.36067" id="St Kathryn Cellars">St Kathryn Cellars</option>
-    <option value="38.899693,-107.577303" id="Stone Cottage Cellars">Stone Cottage Cellars</option>
-    <option value="39.097046,-108.349879" id="Talbott's Mountain Gold LLLP">Talbott's Mountain Gold LLLP</option>
-    <option value="39.116621,-108.36067" id="Talon Wines">Talon Wines</option>
-    <option value="39.04591,-108.44237" id="The Peachfork">The Peachfork</option>
-    <option value="39.090821,-108.662153" id="Two Rivers Winery">Two Rivers Winery</option>
-    <option value="39.111978,-108.355815" id="Varaison Vineyards and Winery, LLC">Varaison Vineyards and Winery, LLC</option>
-    <option value="39.03685,-108.45828" id="Whitewater Hill Vineyards">Whitewater Hill Vineyards</option>
-    <option value="39.118056,-108.364689" id="Wine Country Inn">Wine Country Inn</option>
 
-</select>
+<div id="search_p_venues"></div>
+
 
 <script type="text/javascript">
     var names = [];

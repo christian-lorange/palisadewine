@@ -1,0 +1,127 @@
+		<script type="text/javascript">
+			var marker = false,
+			polygon = false,
+			latitude = 39.10754,
+			longitude = -108.358897;
+			isochrone.load({
+				map: 'theMap',
+				key: 'AIzaSyBikdMuIl6ZeY8jyWWZ3c31JZMynGUWSqQ', // Do change the key: it won't work on your domain anyway :-)
+				callback: function (iso)
+				{
+					var locations =[['Alfred Eames Cellars',38.82634,-107.60381],
+								['Avant Vineyards',39.07861,-108.41027],
+								['Black Bridge Winery',38.88589,-107.58253],
+								['Carlson Vineyards',39.07221,-108.40469],
+								['Colorado Cellars Winery',39.07505,-108.39373],
+								['Colterris Winery',39.115529,-108.325794],
+								['Cottonwood Cellars',38.60797,-108.03621],
+								['DeBeque Canyon Winery',39.105627,-108.355456],
+								['Desert Sun Vineyards',39.04227,-108.45359],
+								['Garfield Estates Vineyard and Winery',39.107404,-108.389369],
+								['Grande River Vineyards',39.117231,-108.362088],
+								['Graystone Winery',39.091901,-108.430842],
+								['Gubbini Winery',39.09035,-108.3667],
+								['Hermosa Vineyards',39.045728,-108.447431],
+								['Maison La Belle Vie Winery',39.104194,-108.389553],
+								['Meadery of the Rockies',39.105832,-108.365821],
+								['Mesa Park Vineyards',39.046375,-108.436188],
+								['Mountain View Winery',38.60738,-108.00163],
+								['Plum Creek Winery',39.106845,-108.365892],
+								['Ptarmigan Vineyards',39.03675,-108.4749],
+								['Red Fox Cellars',39.10468,-108.38576],
+								['Restoration Vineyards',39.0846623,-108.3857671],
+								['Shiras Winery',39.06603,-108.56488],
+								['St Kathryn Cellars',39.116621,-108.36067],
+								['Stone Cottage Cellars',38.899693,-107.577303],
+								['Talbotts Mountain Gold LLLP',39.097046,-108.349879],
+								['Talon Wines',39.116621,-108.36067],
+								['The Peachfork',39.04591,-108.44237],
+								['Two Rivers Winery',39.090821,-108.662153],
+								['Varaison Vineyards and Winery, LLC',39.111978,-108.355815],
+								['Whitewater Hill Vineyards',39.03685,-108.45828],
+								['Wine Country Inn',39.118056,-108.364689]
+								];
+
+				var infowindow = new google.maps.InfoWindow;
+
+				for (i = 0; i < locations.length; i++) {  
+   				marker = new google.maps.Marker({
+         		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+         		map: iso.map.map,
+         		icon: 'img/icon.png'
+    			});
+
+    			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+         		return function() {
+             	infowindow.setContent(locations[i][0]);
+             	infowindow.open(iso.map.map, marker);
+         		}
+    			})(marker, i));
+}
+				navigator.geolocation.getCurrentPosition(showPosition);
+
+    			function showPosition(position) {
+        		var lat2 = position.coords.latitude;
+        		var lon2 = position.coords.longitude;
+        		marker = new google.maps.Marker({position: {lat: lat2, lng: lon2}, map: iso.map.map, icon: 'img/current.png'});
+            	}
+
+					// marker = new google.maps.Marker({position: {lat: latitude, lng: longitude}, map: iso.map.map, icon: 'img/current.png'});
+					iso.map.map.setOptions({
+						clickableIcons: false,
+						draggableCursor: 'pointer',
+						styles: [{
+								featureType: "poi",
+								elementType: "labels",
+								stylers: [{visibility: "off"}]
+							}]
+					});
+					iso.map.map.addListener('click', function (data)
+					{
+						latitude = data.latLng.lat();
+						longitude = data.latLng.lng();
+						marker.setPosition({lat: latitude, lng: longitude});
+					});
+
+
+				},
+				debug: true
+			});
+			/* Allow to click on the map */
+			function testIsochrone()
+			{
+
+				document.getElementById('error').style.display = 'none';
+				document.getElementById('computing').style.display = 'block';
+				if (polygon)
+				{
+					polygon.setMap(null);
+					polygon = null;
+				}
+				isochrone.compute({
+					lat: latitude,
+					lng: longitude,
+					cycles: 5,
+					slices: 8,
+					type: document.getElementById('typeDuration').checked ? 'duration' : 'distance',
+					value: parseFloat(document.getElementById(document.getElementById('typeDuration').checked ? 'durationValue' : 'distanceValue').value.replace(',', '.'))*parseFloat(document.getElementById(document.getElementById('typeDuration').checked ? 'durationValue' : 'distanceValue').placeholder),
+					mode: document.getElementById('modeWalking').checked ? 'walking' : (document.getElementById('modeBicycling').checked ? 'bicycling' : (document.getElementById('modeDriving').checked ? 'driving' : 'transit')),
+					callback: function (status, points)
+					{
+						document.getElementById('computing').style.display = 'none';
+						if (status === 'OK')
+						{
+							polygon = new google.maps.Polygon({path: points});
+							polygon.setMap(isochrone.map.map);
+							ga_anl('send', 'event', 'Activity', 'Action', 'Isochrone');
+						}
+						else
+						{
+							document.getElementById('error').innerHTML = status;
+							document.getElementById('error').style.display = 'block';
+						}
+					}
+				});
+				return false;
+			}
+		</script>
