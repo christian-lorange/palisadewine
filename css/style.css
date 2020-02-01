@@ -159,3 +159,14 @@ table#options_table {
         padding-bottom: 10px;
     }
 }
+
+
+.tour {
+  padding:10px;
+  border:solid;
+  border-radius: 10px;
+}
+
+.tour_link {
+  color:black !important;
+}
