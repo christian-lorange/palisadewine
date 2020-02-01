@@ -63,7 +63,7 @@
     			function showPosition(position) {
         		var lat2 = position.coords.latitude;
         		var lon2 = position.coords.longitude;
-        		marker = new google.maps.Marker({position: {lat: lat2, lng: lon2}, map: iso.map.map, icon: 'img/current.png'});
+        		marker2 = new google.maps.Marker({position: {lat: lat2, lng: lon2}, map: iso.map.map, icon: 'img/current.png'});
             	}
 
 					// marker = new google.maps.Marker({position: {lat: latitude, lng: longitude}, map: iso.map.map, icon: 'img/current.png'});
@@ -80,7 +80,7 @@
 					{
 						latitude = data.latLng.lat();
 						longitude = data.latLng.lng();
-						marker.setPosition({lat: latitude, lng: longitude});
+						marker2.setPosition({lat: latitude, lng: longitude});
 					});
 
 
