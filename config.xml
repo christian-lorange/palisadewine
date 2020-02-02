@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.orangehousepalisade.app"
-        version   = "1.0.3">
+        version   = "1.0.4">
 
     <name>Palisade Wine Finder</name>
 
@@ -38,7 +38,7 @@
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install locati n. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
      <preference name="SplashMaintainAspectRatio" value="true" />
-     <preference name="SplashScreenDelay" value="0"/>
+     <preference name="SplashScreenDelay" value="3000"/>
 
 
 

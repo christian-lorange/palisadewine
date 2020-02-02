@@ -1019,8 +1019,10 @@ function geocodeAddress(geocoder, resultsMap) {
 
             document.getElementById("venue_options").style.display = "block";
             document.getElementById("button_grp").style.display = "block";
+            document.getElementById("venuesinlist").style.display = "block";
 
             document.getElementById("add_address").style.display = "none";
+            document.getElementById("instructionimage").style.display = "none";
 
             var x_destinations = nodes.length.toString()
 
@@ -1089,7 +1091,7 @@ function adcount() {
 
   localStorage.setItem("tracking", tracking_current);
 
-  if(tracking_current.length>=4){
+  if(tracking_current.length>=8){
     CallButton()
     localStorage.setItem("tracking", "1");
   }
@@ -1145,12 +1147,16 @@ function adcount() {
         <div id="vcollapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="vheading1">
             <div class="panel-body">
                     <p>Below you will see a list of wineries, cideries, and meaderies in the greater Palisade area. Click each section to see more details about each location including (in many cases) their hours of operations. If you have your GPS on and you have allowed location information you will see your current distance from each location. This distance is as the "bird flies". You can also navigate to our map features to plan your route or to see wineries close to your current location.</p><p>You can use the search field to filter the results by location name or city name.</p>
+                    <div style="text-align: center;">
+                    <img src="img/venue_expand.png" width="40%" id="venue_expand" style="text-align: center;"></div>
             </div>
         </div>
     </div>
 </div>
 
 <input placeholder="Search by Name or City" id="box" type="text" />
+
+
 
 <div id="venues"></div>
 
@@ -1177,26 +1183,30 @@ function adcount() {
     </div>
 </div>
 
-    <div id="map-canvas" style="width:100vw; height:50vh;"></div>
+    <div id="map-canvas" style="width:100vw; height: 50vh;" ></div>
 
 <br>
 
+
+<img src="img/instructions.png" width="60%" id="instructionimage">
 <div id="add_address">
     <input id="address" type="textbox" value="Palisade, CO" class="form-control">
-    <input id="submit" type="button" value="Add Starting/Ending Address" class="form-control">
+    <input id="submit" type="button" value="Add Starting/Ending Address" class="form-control custombutton">
 </div>
 <div id="button_grp" style="display: none;">
-    <button id="find-route" class="form-control">Start</button>
+    <button id="find-route" class="form-control custombutton">Start</button>
     <br>
-    <button id="clear-map" class="form-control">Clear</button>
+    <button id="clear-map" class="form-control custombutton">Clear</button>
     <br>
 </div>
-<span>Permutations Tried: </span><span id="generations-passed"></span>
+<!-- <span>Permutations Tried: </span><span id="generations-passed"></span> -->
 <div id="directionspanel"></div>
 
 <!--Search panel for venues -->
 
 <div id="search_p_venues"></div>
+
+<div id="venuesinlist" style="display: none"><h3>Locations in your route</h3></div>
 
 
 <script type="text/javascript">
@@ -1205,9 +1215,16 @@ function adcount() {
     function nameslist(current_name) {
         names.push(current_name);
         console.log(names);
+
+        var listnode = document.getElementById("venuesinlist")     // Get element containing list
+        var pnode = document.createElement("p")                    //Create paragraph node
+        var textnode = document.createTextNode(current_name);     // Create a text node
+        pnode.appendChild(textnode)
+        listnode.appendChild(pnode);                                   // Append the text to <h1>
     }
 
     function addmarker(latlng) {
+
 
         var array = latlng.split(",");
         console.log(array)
@@ -1264,7 +1281,7 @@ function adcount() {
 <div>
     <table id="options_table">
         <tr>
-            <td>Destinations Count: (maximum of nine)</td>
+            <td>Destinations: (maximum of nine)</td>
             <td id="destinations-count">0</td>
         </tr>
         <tr>

@@ -61,6 +61,7 @@ body {
 
 .panel-default>.panel-heading {
   background-color: #80434B !important;
+  color: white !important;
 }
 
 .winery_title {
@@ -119,8 +120,14 @@ body {
   text-align: center;
   border-radius: 5px;
   border-width: 3px;
+  font-size: 1.5em; 
+  background-color: #cfa4aa;
 }
 
+
+select#venue_options {
+  background-color: #cfa4aa;
+}
 
 #mapid {
     width: 100vw;
@@ -186,3 +193,39 @@ table#options_table {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+/*Style buttons*/
+input.form-control.custombutton {
+  width:70vw;
+  background: #cfa4aa;
+  margin:auto;
+  font-weight: bolder;
+}
+
+button#find-route {
+    width:70vw;
+  background: #cfa4aa;
+  margin:auto;
+  font-weight: bolder;
+}
+
+button#clear-map{
+      width:70vw;
+  background: #cfa4aa;
+  margin:auto;
+  font-weight: bolder;
+}
+/*End of button style*/
+
+/*Veneus in routing list*/
+div#venuesinlist {
+  background-color: #FFFDB8;
+  padding-bottom:10px;
+}
+
+div#venuesinlist p {
+  line-height: 5px;
+}
+
+/*End of venues in routing list*/
