@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.orangehousepalisade.app"
-        version   = "1.0.7">
+        version   = "1.0.8">
 
     <name>Palisade Wine Finder</name>
 
@@ -212,7 +212,7 @@
     </platform>
 
 
-    <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+    <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
     <string>We need location information to determine your distance to different wineries in the region</string>
     </edit-config>
 
