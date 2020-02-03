@@ -121,12 +121,12 @@ body {
   border-radius: 5px;
   border-width: 3px;
   font-size: 1.5em; 
-  background-color: #cfa4aa;
+  background-color: #eb7f8e;
 }
 
 
 select#venue_options {
-  background-color: #cfa4aa;
+  background-color: #eb7f8e;
 }
 
 #mapid {
@@ -198,21 +198,21 @@ table#options_table {
 /*Style buttons*/
 input.form-control.custombutton {
   width:70vw;
-  background: #cfa4aa;
+  background: #eb7f8e;
   margin:auto;
   font-weight: bolder;
 }
 
 button#find-route {
     width:70vw;
-  background: #cfa4aa;
+  background: #eb7f8e;
   margin:auto;
   font-weight: bolder;
 }
 
 button#clear-map{
       width:70vw;
-  background: #cfa4aa;
+  background: #eb7f8e;
   margin:auto;
   font-weight: bolder;
 }

@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.orangehousepalisade.app"
-        version   = "1.0.5">
+        version   = "1.0.6">
 
     <name>Palisade Wine Finder</name>
 
@@ -38,7 +38,7 @@
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install locati n. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
      <preference name="SplashMaintainAspectRatio" value="true" />
-     <preference name="SplashScreenDelay" value="3000"/>
+     <preference name="SplashScreenDelay" value="1500"/>
 
 
 
@@ -212,8 +212,13 @@
     </platform>
 
 
-    <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-    <string>We need location information to determine your distance for different wineries in the region</string>
+
+    <edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+    <string>We need location information to determine your distance to different wineries in the region</string>
+    </edit-config>
+
+    <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+    <string>We need location information to determine your distance to different wineries in the region</string>
     </edit-config>
 
 
