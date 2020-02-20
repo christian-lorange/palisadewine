@@ -275,6 +275,15 @@ var stations = {"type": "FeatureCollection",
       "coordinates": [-108.355815,39.111978]
     }
   },
+  {"type": "Feature","properties": {
+      "STATION": "Vines 79 Wine Barn",
+      "ST_CODE": "MGRP",
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-108.340582,39.105639]
+    }
+  },
 {"type": "Feature","properties": {
       "STATION": "Whitewater Hill Vineyards",
       "ST_CODE": "MGRP",
